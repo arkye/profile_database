@@ -5,54 +5,13 @@
 <%@ page session="false" %>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+	<%@include file="/resources/jsp/general-head.jsp" %>
 	<title>Opções de Escala</title>
-	
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- Optional Theme CSS -->
-	<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-	<!-- Local CSS -->
-	<link rel="stylesheet"
-	href="<c:url value="/resources/css/ie10-viewport-bug-workaround.css"/>">
-	<link rel="stylesheet"
-	href="<c:url value="/resources/css/general.css"/>">
 </head>
 
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button"
-				class="navbar-toggle collapsed"
-				data-toggle="collapse"
-				data-target="#navbar"
-				aria-expanded="false"
-				aria-controls="navbar">
-				<span class="sr-only">Ativar navegação</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Banco de Talentos</a>
-		</div>
-		<div id="navbar" class="navbar-collapse collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Início</a></li>
-				<li><a href="#">Pessoas</a></li>
-				<li><a href="#">Competências</a></li>
-				<li><a href="#">Ajuda</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+<%@include file="/resources/jsp/general-navbar.jsp" %>
 
 <!-- Container -->
 <div class="container-fluid">
@@ -74,32 +33,50 @@
 		<h1 class="page-header">Opções de Escala</h1>
 		
 		<!-- Add New ScaleOption -->
-		<h3 class="sub-header">Nova Opção de Escala</h3>
-
+		<c:choose>
+			<c:when test="${empty scaleOption.name}">
+				<h3 class="sub-header">Nova Opção de Escala</h3>
+			</c:when>
+			<c:otherwise>
+				<h3 class="sub-header">Editar Opção de Escala</h3>
+			</c:otherwise>
+		</c:choose>
+		
 		<!-- Action -->
 		<c:url var="addAction" value="/scale-options/add" ></c:url>
 
 		<!--  Form -->
 		<form:form action="${addAction}" commandName="scaleOption">
+			<c:if test="${!empty scaleOption.name}">
+				<div class="form-group">
+					<label for="id">Número Identificador</label>
+					<form:input path="id" readonly="true" class="form-control"/>
+				</div>
+			</c:if>
 			<div class="form-group">
 				<label for="name">Nome</label>
 				<form:input path="name" class="form-control"/>
 			</div>
-			<button type="submit" class="btn btn-default">Adicionar</button>
+			<c:choose>
+				<c:when test="${empty scaleOption.name}">
+					<button type="submit" class="btn btn-default">Adicionar</button>
+				</c:when>
+				<c:otherwise>
+					<button type="submit" class="btn btn-default">Editar</button>
+				</c:otherwise>
+			</c:choose>
 		</form:form>
 		
-		<!-- Add New ScaleOption -->
-		<h3 class="sub-header">Lista de Opções de Escala</h3>
-		
 		<c:if test="${!empty scaleOptions}">
+			<h3 class="sub-header">Lista de Opções de Escala</h3>
 			<div class="table-responsive">
 				<table class="table table-striped">
 				<thead>
 					<tr>
 						<th>#</th>
 						<th>Nome</th>
-						<th></th>
-						<th></th>
+						<th>Modificar</th>
+						<th>Remover</th>
 					</tr>
 				<thead>
 				<tbody>
@@ -107,8 +84,8 @@
 						<tr>
 							<td>${scaleOption.id}</td>
 							<td>${scaleOption.name}</td>
-							<td><a href="<c:url value='/scale-options/edit/${scaleOption.id}' />" >Editar</a></td>
-							<td><a href="<c:url value='/scale-options/remove/${scaleOption.id}' />" >Remover</a></td>
+							<td><a href="<c:url value='/scale-options/edit/${scaleOption.id}' />" ><i class="material-icons" style="font-size:18px">edit</i></a></td>
+							<td><a href="<c:url value='/scale-options/remove/${scaleOption.id}' />" ><i class="material-icons" style="font-size:18px">delete</i></a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -118,8 +95,7 @@
 	</div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<%@include file="/resources/jsp/general-scripts.jsp" %>
 
 </body>
 </html>
