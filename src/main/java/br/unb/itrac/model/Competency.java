@@ -4,27 +4,28 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 @Entity
-@Table
-public class CompetencyScale {
+public class Competency {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
+	
 	private String name;
-
+	
 	private String description;
-
-	@ManyToMany(cascade=CascadeType.REFRESH, fetch=FetchType.EAGER)
-	private List<ScaleOption> scaleOptions;
+	
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	private CompetencyCategory competencyCategory;
+	
+	@ManyToMany(cascade=CascadeType.REFRESH)
+	private List<Person> people;
 
 	public int getId() {
 		return id;
@@ -50,21 +51,32 @@ public class CompetencyScale {
 		this.description = description;
 	}
 
-	public List<ScaleOption> getScaleOptions() {
-		return scaleOptions;
+	public CompetencyCategory getCompetencyCategory() {
+		return competencyCategory;
 	}
 
-	public void setScaleOptions(List<ScaleOption> scaleOptions) {
-		this.scaleOptions = scaleOptions;
+	public void setCompetencyCategory(CompetencyCategory competencyCategory) {
+		this.competencyCategory = competencyCategory;
 	}
 
+	public List<Person> getPeople() {
+		return people;
+	}
+
+	public void setPeople(List<Person> people) {
+		this.people = people;
+	}
+	
 	@Override
 	public String toString() {
 		String toString = "(" + id + ") - " + name + ": " + description;
-		if (scaleOptions != null && !scaleOptions.isEmpty()) {
-			toString += " with ScaleOptions:";
-			for (ScaleOption scaleOption : scaleOptions) {
-				toString += " " + scaleOption.toString();
+		if(competencyCategory != null) {
+			toString += " with CompetencyCategory: " + competencyCategory.getName();
+		}
+		if(people != null && !people.isEmpty()) {
+			toString += " and People: ";
+			for(Person person : people) {
+				toString += " " + person.getFirstName() + " " + person.getLastName();
 			}
 		}
 		return toString;

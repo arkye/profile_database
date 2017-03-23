@@ -23,14 +23,14 @@ public class CompetencyScaleDAOImpl implements CompetencyScaleDAO {
 	public void addCompetencyScale(CompetencyScale competencyScale) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(competencyScale);
-		logger.info("CompetencyScale saved successfully, CompetencyScale Details=" + competencyScale);
+		logger.info("[CompetencyScale][ADD]:" + competencyScale);
 	}
 
 	@Override
 	public void updateCompetencyScale(CompetencyScale competencyScale) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(competencyScale);
-		logger.info("CompetencyScale updated successfully, CompetencyScale Details=" + competencyScale);
+		logger.info("[CompetencyScale][UPDATE]:" + competencyScale);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class CompetencyScaleDAOImpl implements CompetencyScaleDAO {
 		@SuppressWarnings("unchecked")
 		List<CompetencyScale> competencyScales = session.createQuery("from CompetencyScale").list();
 		for (CompetencyScale competencyScale : competencyScales) {
-			logger.info("ComptencyScale List::" + competencyScale);
+			logger.info("[CompetencyScale][LIST]:" + competencyScale);
 		}
 		return competencyScales;
 	}
@@ -48,7 +48,7 @@ public class CompetencyScaleDAOImpl implements CompetencyScaleDAO {
 	public CompetencyScale getCompetencyScaleById(int id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		CompetencyScale competencyScale = (CompetencyScale) session.load(CompetencyScale.class, new Integer(id));
-		logger.info("CompetencyScale loaded successfully, CompetencyScale details=" + competencyScale);
+		logger.info("[CompetencyScale][GET_BY_ID]:" + competencyScale);
 		return competencyScale;
 	}
 
@@ -58,7 +58,7 @@ public class CompetencyScaleDAOImpl implements CompetencyScaleDAO {
 		CompetencyScale competencyScale = (CompetencyScale) session.load(CompetencyScale.class, new Integer(id));
 		if (competencyScale != null) {
 			session.remove(competencyScale);
-			logger.info("CompetencyScale removed successfully, CompetencyScale details=" + competencyScale);
+			logger.info("[CompetencyScale][REMOVE]:" + competencyScale);
 		}
 	}
 }

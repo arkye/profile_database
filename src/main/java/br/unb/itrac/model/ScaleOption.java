@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class ScaleOption {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
@@ -34,6 +34,6 @@ public class ScaleOption {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", name=" + name;
+		return "(" + id + ") - " + name;
 	}
 }

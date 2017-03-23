@@ -1,30 +1,28 @@
 package br.unb.itrac.model;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table
-public class CompetencyScale {
-
+public class CompetencyCategory {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
+	
 	private String name;
-
+	
 	private String description;
-
-	@ManyToMany(cascade=CascadeType.REFRESH, fetch=FetchType.EAGER)
-	private List<ScaleOption> scaleOptions;
+	
+	@ManyToOne(cascade=CascadeType.REFRESH, fetch=FetchType.EAGER)
+	private CompetencyScale competencyScale;
 
 	public int getId() {
 		return id;
@@ -50,22 +48,19 @@ public class CompetencyScale {
 		this.description = description;
 	}
 
-	public List<ScaleOption> getScaleOptions() {
-		return scaleOptions;
+	public CompetencyScale getCompetencyScale() {
+		return competencyScale;
 	}
 
-	public void setScaleOptions(List<ScaleOption> scaleOptions) {
-		this.scaleOptions = scaleOptions;
+	public void setCompetencyScale(CompetencyScale competencyScale) {
+		this.competencyScale = competencyScale;
 	}
-
+	
 	@Override
 	public String toString() {
 		String toString = "(" + id + ") - " + name + ": " + description;
-		if (scaleOptions != null && !scaleOptions.isEmpty()) {
-			toString += " with ScaleOptions:";
-			for (ScaleOption scaleOption : scaleOptions) {
-				toString += " " + scaleOption.toString();
-			}
+		if(competencyScale != null) {
+			toString += " with CompetencyScale: " + competencyScale.getName();
 		}
 		return toString;
 	}

@@ -20,11 +20,12 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="/competencies"/>">Competências</a>
+					<li class="active"><a href="#">Competências<span
+							class="sr-only">(atual)</span></a>
 					<li><a href="<c:url value="/competency-categories"/>">Categorias
 							de Competência</a></li>
-					<li class="active"><a href="#">Escalas de Competência<span
-							class="sr-only">(atual)</span></a></li>
+					<li><a href="<c:url value="/competency-scales"/>">Escalas
+							de Competência</a></li>
 					<li><a href="<c:url value="/scale-options"/>">Opções de
 							Escala</a></li>
 				</ul>
@@ -33,27 +34,27 @@
 
 		<!-- Content -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h1 class="page-header">Escalas de Competência</h1>
+			<h1 class="page-header">Competências</h1>
 
 			<!-- Add New ScaleOption -->
 			<c:choose>
-				<c:when test="${empty competencyScale.name}">
-					<h3 class="sub-header">Nova Escala de Competência</h3>
+				<c:when test="${empty competency.name}">
+					<h3 class="sub-header">Nova Competência</h3>
 				</c:when>
 				<c:otherwise>
-					<h3 class="sub-header">Editar Escala de Competência</h3>
+					<h3 class="sub-header">Editar Competência</h3>
 				</c:otherwise>
 			</c:choose>
 
 			<c:choose>
-				<c:when test="${!empty scaleOptions}">
+				<c:when test="${!empty competencyCategories}">
 					<!-- Action -->
-					<c:url var="addAction" value="/competency-scales/add"></c:url>
+					<c:url var="addAction" value="/competencies/add"></c:url>
 
 					<!--  Form -->
-					<form:form action="${addAction}" commandName="competencyScale"
+					<form:form action="${addAction}" commandName="competency"
 						class="form">
-						<c:if test="${!empty competencyScale.name}">
+						<c:if test="${!empty competency.name}">
 							<div class="form-group">
 								<label for="id">Número Identificador</label>
 								<form:input path="id" readonly="true" class="form-control" />
@@ -67,16 +68,16 @@
 							<label for="description">Descrição</label>
 							<form:input path="description" class="form-control" />
 						</div>
-						<label for="scaleOptions">Opções de Escala</label>
+						<label for="competencyCategory">Categoria de Competência</label>
 						<div class="form-group">
-							<form:select path="scaleOptions" class="form-control"
-								multiple="true" items="${scaleOptions}" itemLabel="name"
-								itemValue="id" />
+							<form:select path="competencyCategory" class="form-control"
+								multiple="false" items="${competencyCategories}"
+								itemLabel="name" itemValue="id" />
 						</div>
 
 						<div class="form-group"></div>
 						<c:choose>
-							<c:when test="${empty competencyScale.name}">
+							<c:when test="${empty competency.name}">
 								<button type="submit" class="btn btn-default">Adicionar</button>
 							</c:when>
 							<c:otherwise>
@@ -85,8 +86,8 @@
 						</c:choose>
 					</form:form>
 
-					<c:if test="${!empty competencyScales}">
-						<h3 class="sub-header">Lista de Escalas de Competência</h3>
+					<c:if test="${!empty competencies}">
+						<h3 class="sub-header">Lista de Categorias de Competência</h3>
 						<div class="table-responsive">
 							<table class="table table-striped">
 								<thead>
@@ -94,26 +95,23 @@
 										<th>#</th>
 										<th>Nome</th>
 										<th>Descrição</th>
-										<th>Opções de Escala</th>
+										<th>Categoria de Competência</th>
 										<th>Modificar</th>
 										<th>Remover</th>
 									</tr>
 								<thead>
 								<tbody>
-									<c:forEach items="${competencyScales}" var="competencyScale">
+									<c:forEach items="${competencies}" var="competency">
 										<tr>
-											<td>${competencyScale.id}</td>
-											<td>${competencyScale.name}</td>
-											<td>${competencyScale.description}</td>
-											<td><c:forEach items="${competencyScale.scaleOptions}"
-													var="scaleOption">
-											${scaleOption.name}
-										</c:forEach></td>
+											<td>${competency.id}</td>
+											<td>${competency.name}</td>
+											<td>${competency.description}</td>
+											<td>${competency.competencyCategory.name}</td>
 											<td><a
-												href="<c:url value='/competency-scales/edit/${competencyScale.id}' />"><i
+												href="<c:url value='/competencies/edit/${competency.id}' />"><i
 													class="material-icons" style="font-size: 18px">edit</i></a></td>
 											<td><a
-												href="<c:url value='/competency-scales/remove/${competencyScale.id}' />"><i
+												href="<c:url value='/competencies/remove/${competency.id}' />"><i
 													class="material-icons" style="font-size: 18px">delete</i></a></td>
 										</tr>
 									</c:forEach>
@@ -124,10 +122,10 @@
 				</c:when>
 				<c:otherwise>
 					<p>
-						<strong>Dica</strong>: Para criar uma nova escala de competência é
-						necessário, antes, definir opções de escala. Para definir opções
-						de escala, <a href="<c:url value="scale-options"/>">clique
-							aqui</a>.
+						<strong>Dica</strong>: Para criar uma nova competência é
+						necessário, antes, definir uma categoria de competência. Para
+						definir uma categoria de competência, <a
+							href="<c:url value="competency-categories"/>">clique aqui</a>.
 					</p>
 				</c:otherwise>
 			</c:choose>

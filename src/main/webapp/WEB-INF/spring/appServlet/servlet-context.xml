@@ -39,6 +39,9 @@
 			<beans:list>
 				<beans:value>br.unb.itrac.model.ScaleOption</beans:value>
 				<beans:value>br.unb.itrac.model.CompetencyScale</beans:value>
+				<beans:value>br.unb.itrac.model.CompetencyCategory</beans:value>
+				<beans:value>br.unb.itrac.model.Competency</beans:value>
+				<beans:value>br.unb.itrac.model.Person</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -70,6 +73,27 @@
 	</beans:bean>
 	<beans:bean id="competencyScaleService" class="br.unb.itrac.service.CompetencyScaleServiceImpl">
 		<beans:property name="competencyScaleDAO" ref="competencyScaleDAO"/>
+	</beans:bean>
+	
+	<beans:bean id="competencyCategoryDAO" class="br.unb.itrac.dao.CompetencyCategoryDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="competencyCategoryService" class="br.unb.itrac.service.CompetencyCategoryServiceImpl">
+		<beans:property name="competencyCategoryDAO" ref="competencyCategoryDAO"/>
+	</beans:bean>
+	
+	<beans:bean id="competencyDAO" class="br.unb.itrac.dao.CompetencyDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="competencyService" class="br.unb.itrac.service.CompetencyServiceImpl">
+		<beans:property name="competencyDAO" ref="competencyDAO"/>
+	</beans:bean>
+	
+	<beans:bean id="personDAO" class="br.unb.itrac.dao.PersonDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="personService" class="br.unb.itrac.service.PersonServiceImpl">
+		<beans:property name="personDAO" ref="personDAO"/>
 	</beans:bean>
 	
 	<context:component-scan base-package="br.unb.itrac" />

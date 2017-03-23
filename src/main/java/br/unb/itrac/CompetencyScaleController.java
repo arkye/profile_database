@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import br.unb.itrac.model.CompetencyCategory;
 import br.unb.itrac.model.CompetencyScale;
 import br.unb.itrac.model.ScaleOption;
+import br.unb.itrac.service.CompetencyCategoryService;
 import br.unb.itrac.service.CompetencyScaleService;
 import br.unb.itrac.service.ScaleOptionService;
 
@@ -24,6 +26,7 @@ public class CompetencyScaleController {
 
 	private CompetencyScaleService competencyScaleService;
 	private ScaleOptionService scaleOptionService;
+	private CompetencyCategoryService competencyCategoryService;
 
 	@Autowired(required = true)
 	@Qualifier(value = "competencyScaleService")
@@ -35,6 +38,12 @@ public class CompetencyScaleController {
 	@Qualifier(value = "scaleOptionService")
 	public void setScaleOptionService(ScaleOptionService scaleOptionService) {
 		this.scaleOptionService = scaleOptionService;
+	}
+	
+	@Autowired(required = true)
+	@Qualifier(value = "competencyCategoryService")
+	public void setCompetencyCategoryService(CompetencyCategoryService competencyCategoryService) {
+		this.competencyCategoryService = competencyCategoryService;
 	}
 
 	@InitBinder
@@ -71,6 +80,15 @@ public class CompetencyScaleController {
 
 	@RequestMapping("/competency-scales/remove/{id}")
 	public String removeCompetencyScale(@PathVariable("id") int id) {
+		List<CompetencyCategory> competencyCategories = competencyCategoryService.listCompetencyCategories();
+		if(competencyCategories != null && !competencyCategories.isEmpty()) {
+			for(CompetencyCategory competencyCategory : competencyCategories) {
+				if(competencyCategory.getCompetencyScale().getId() == id) {
+					competencyCategory.setCompetencyScale(null);
+					competencyCategoryService.updateCompetencyCategory(competencyCategory);
+				}
+			}
+		}
 		this.competencyScaleService.removeCompetencyScale(id);
 		return "redirect:/competency-scales";
 	}

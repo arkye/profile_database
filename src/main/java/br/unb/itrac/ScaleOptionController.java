@@ -21,7 +21,6 @@ import br.unb.itrac.service.ScaleOptionService;
 public class ScaleOptionController {
 
 	private ScaleOptionService scaleOptionService;
-	
 	private CompetencyScaleService competencyScaleService;
 
 	@Autowired(required = true)
@@ -64,8 +63,10 @@ public class ScaleOptionController {
 						scaleOptions.add(scaleOption);
 					}
 				}
-				competencyScale.setScaleOptions(scaleOptions);
-				competencyScaleService.updateCompetencyScale(competencyScale);
+				if(!scaleOptions.isEmpty()) {
+					competencyScale.setScaleOptions(scaleOptions);
+					competencyScaleService.updateCompetencyScale(competencyScale);
+				}
 			}
 		}
 		this.scaleOptionService.removeScaleOption(id);
