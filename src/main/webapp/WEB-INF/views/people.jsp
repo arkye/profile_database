@@ -94,7 +94,7 @@
 				</c:choose>
 			</form:form>
 
-			<c:if test="${!empty people}">
+			<c:if test="${!empty people && empty person.firstName}">
 				<h3 class="sub-header">Lista de Pessoas Registradas</h3>
 				<div class="table-responsive">
 					<table class="table table-striped">

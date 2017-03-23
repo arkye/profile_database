@@ -70,7 +70,7 @@
 				</c:choose>
 			</form:form>
 
-			<c:if test="${!empty scaleOptions}">
+			<c:if test="${!empty scaleOptions && empty scaleOption.name}">
 				<h3 class="sub-header">Lista de Opções de Escala</h3>
 				<div class="table-responsive">
 					<table class="table table-striped">

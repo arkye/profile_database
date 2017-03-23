@@ -86,7 +86,7 @@
 						</c:choose>
 					</form:form>
 
-					<c:if test="${!empty competencies}">
+					<c:if test="${!empty competencies && empty competency.name}">
 						<h3 class="sub-header">Lista de Categorias de Competência</h3>
 						<div class="table-responsive">
 							<table class="table table-striped">

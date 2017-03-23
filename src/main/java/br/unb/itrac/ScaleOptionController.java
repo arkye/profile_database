@@ -76,7 +76,7 @@ public class ScaleOptionController {
 	@RequestMapping("/scale-options/edit/{id}")
 	public String editScaleOption(@PathVariable("id") int id, Model model) {
 		model.addAttribute("scaleOption", this.scaleOptionService.getScaleOptionById(id));
-		model.addAttribute("listScaleOptions", this.scaleOptionService.listScaleOptions());
+		model.addAttribute("scaleOptions", this.scaleOptionService.listScaleOptions());
 		return "scale-options";
 	}
 }
