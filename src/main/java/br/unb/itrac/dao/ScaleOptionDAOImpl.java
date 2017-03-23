@@ -12,11 +12,11 @@ import br.unb.itrac.model.ScaleOption;
 
 @Repository
 public class ScaleOptionDAOImpl implements ScaleOptionDAO {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ScaleOptionDAOImpl.class);
-	
+
 	private SessionFactory sessionFactory;
-	
+
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -25,14 +25,14 @@ public class ScaleOptionDAOImpl implements ScaleOptionDAO {
 	public void addScaleOption(ScaleOption scaleOption) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(scaleOption);
-		logger.info("ScaleOption saved successfully, Scale Option Details="+scaleOption);
+		logger.info("ScaleOption saved successfully, Scale Option Details=" + scaleOption);
 	}
 
 	@Override
 	public void updateScaleOption(ScaleOption scaleOption) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(scaleOption);
-		logger.info("ScaleOption updated successfully, Scale Option Details="+scaleOption);		
+		logger.info("ScaleOption updated successfully, Scale Option Details=" + scaleOption);
 	}
 
 	@Override
@@ -40,8 +40,8 @@ public class ScaleOptionDAOImpl implements ScaleOptionDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
 		List<ScaleOption> scaleOptions = session.createQuery("from ScaleOption").list();
-		for(ScaleOption scaleOption : scaleOptions) {
-			logger.info("Scale Option List::"+scaleOption);
+		for (ScaleOption scaleOption : scaleOptions) {
+			logger.info("Scale Option List::" + scaleOption);
 		}
 		return scaleOptions;
 	}
@@ -50,7 +50,7 @@ public class ScaleOptionDAOImpl implements ScaleOptionDAO {
 	public ScaleOption getScaleOptionById(int id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		ScaleOption scaleOption = (ScaleOption) session.load(ScaleOption.class, new Integer(id));
-		logger.info("ScaleOption loaded successfully, ScaleOption details="+scaleOption);
+		logger.info("ScaleOption loaded successfully, ScaleOption details=" + scaleOption);
 		return scaleOption;
 	}
 
@@ -58,10 +58,9 @@ public class ScaleOptionDAOImpl implements ScaleOptionDAO {
 	public void removeScaleOption(int id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		ScaleOption scaleOption = (ScaleOption) session.load(ScaleOption.class, new Integer(id));
-		if(null != scaleOption) {
-			session.delete(scaleOption);
+		if (scaleOption != null) {
+			session.remove(scaleOption);
+			logger.info("ScaleOption removed successfully, ScaleOption details=" + scaleOption);
 		}
-		logger.info("ScaleOption deleted successfully, ScaleOption details="+scaleOption);
 	}
-
 }

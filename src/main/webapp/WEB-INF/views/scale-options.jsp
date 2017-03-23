@@ -22,7 +22,7 @@
 			<ul class="nav nav-sidebar">
 				<li><a href="#">Competências</a>
 				<li><a href="#">Categorias de Competência</a></li>
-				<li><a href="#">Escalas de Competência</a></li>
+				<li><a href="<c:url value="/competency-scales"/>">Escalas de Competência</a></li>
 				<li class="active"><a href="#">Opções de Escala <span class="sr-only">(atual)</span></a></li>
 			</ul>
 		</div>

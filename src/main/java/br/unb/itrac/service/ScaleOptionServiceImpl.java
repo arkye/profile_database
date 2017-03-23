@@ -9,9 +9,9 @@ import br.unb.itrac.dao.ScaleOptionDAOImpl;
 import br.unb.itrac.model.ScaleOption;
 
 public class ScaleOptionServiceImpl implements ScaleOptionService {
-	
+
 	private ScaleOptionDAO scaleOptionDAO;
-	
+
 	public void setScaleOptionDAO(ScaleOptionDAOImpl scaleOptionDAO) {
 		this.scaleOptionDAO = scaleOptionDAO;
 	}
@@ -45,6 +45,4 @@ public class ScaleOptionServiceImpl implements ScaleOptionService {
 	public void removeScaleOption(int id) {
 		this.scaleOptionDAO.removeScaleOption(id);
 	}
-
-	
 }
