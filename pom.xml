@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.unb</groupId>
 	<artifactId>itrac</artifactId>
-	<name>competency_database</name>
+	<name>profile_database</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
