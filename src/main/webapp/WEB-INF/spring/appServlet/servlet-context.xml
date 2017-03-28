@@ -46,7 +46,7 @@
 				<beans:value>br.unb.itrac.model.CompetencyScale</beans:value>
 				<beans:value>br.unb.itrac.model.CompetencyCategory</beans:value>
 				<beans:value>br.unb.itrac.model.Competency</beans:value>
-				<beans:value>br.unb.itrac.model.Person</beans:value>
+				<beans:value>br.unb.itrac.model.Collaborator</beans:value>
 				<beans:value>br.unb.itrac.model.Document</beans:value>
 			</beans:list>
 		</beans:property>
@@ -95,11 +95,11 @@
 		<beans:property name="competencyDAO" ref="competencyDAO"/>
 	</beans:bean>
 	
-	<beans:bean id="personDAO" class="br.unb.itrac.dao.PersonDAOImpl">
+	<beans:bean id="collaboratorDAO" class="br.unb.itrac.dao.CollaboratorDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
-	<beans:bean id="personService" class="br.unb.itrac.service.PersonServiceImpl">
-		<beans:property name="personDAO" ref="personDAO"/>
+	<beans:bean id="collaboratorService" class="br.unb.itrac.service.CollaboratorServiceImpl">
+		<beans:property name="collaboratorDAO" ref="collaboratorDAO"/>
 	</beans:bean>
 	
 	<beans:bean id="documentDAO" class="br.unb.itrac.dao.DocumentDAOImpl">

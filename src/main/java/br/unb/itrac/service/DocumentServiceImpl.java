@@ -1,15 +1,19 @@
 package br.unb.itrac.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import br.unb.itrac.dao.DocumentDAO;
 import br.unb.itrac.dao.DocumentDAOImpl;
 import br.unb.itrac.model.Document;
 
 public class DocumentServiceImpl implements DocumentService {
-	
+
 	private DocumentDAO documentDAO;
 
 	public void setDocumentDAO(DocumentDAOImpl documentDAO) {
@@ -18,14 +22,26 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	@Transactional
-	public void addDocument(Document document) {
+	public Document addDocument(String name, CommonsMultipartFile file) {
+		Document document = new Document();
+		document.setName(name);
+		document.setFileName(file.getOriginalFilename());
+		document.setFile(file.getBytes());
 		this.documentDAO.addDocument(document);
+		return document;
 	}
 
 	@Override
 	@Transactional
-	public void updateDocument(Document document) {
+	public Document updateDocument(int id, String name, CommonsMultipartFile file) {
+		Document document = getDocumentById(id);
+		document.setName(name);
+		if (!file.isEmpty()) {
+			document.setFileName(file.getOriginalFilename());
+			document.setFile(file.getBytes());
+		}
 		this.documentDAO.updateDocument(document);
+		return document;
 	}
 
 	@Override
@@ -44,5 +60,18 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public void removeDocument(int id) {
 		this.documentDAO.removeDocument(id);
+	}
+
+	@Override
+	@Transactional
+	public void serveDocument(int id, HttpServletResponse response) {
+		Document document = getDocumentById(id);
+		byte[] file = document.getFile();
+		response.setContentLength(file.length);
+		try {
+			response.getOutputStream().write(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

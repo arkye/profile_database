@@ -20,40 +20,41 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="/competencies"/>">Competências</a>
-					<li><a href="<c:url value="/competency-categories"/>">Categorias
-							de Competência</a></li>
-					<li class="active"><a href="#">Escalas de Competência<span
-							class="sr-only">(atual)</span></a></li>
-					<li><a href="<c:url value="/scale-options"/>">Opções de
-							Escala</a></li>
+					<li class="active"><a href="#">Colaboradores<span
+							class="sr-only">(atual)</span></a>
+					<li><a href="<c:url value="#"/>">Contratos</a></li>
+					<li><a href="<c:url value="#"/>">Perfis</a></li>
 				</ul>
 			</div>
 		</div>
 
 		<!-- Content -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h1 class="page-header">Documentos</h1>
+			<h1 class="page-header">Colaboradores</h1>
 
 			<!-- Action -->
-			<c:url var="addAction" value="/documents/add"></c:url>
+			<c:url var="addAction" value="/collaborators/add"></c:url>
 
-			<!-- Add New ScaleOption -->
 			<c:choose>
-				<c:when test="${empty document.name}">
-					<h3 class="sub-header">Novo Documento</h3>
+				<c:when test="${empty collaborator.firstName}">
+					<h3 class="sub-header">Registrar Novo Colaborador</h3>
 
 					<!--  Form -->
 					<form method="POST" action="${addAction}"
 						enctype="multipart/form-data" class="form">
-						<input type="number" name="id" class="form-control" value=0 style="visibility: hidden"/>
+						<input type="number" name="id" class="form-control" value=0
+							style="visibility: hidden" />
 						<div class="form-group">
-							<label for="name">Nome</label> <input type="text" name="name"
-								class="form-control">
+							<label for="firstName">Nome</label> <input type="text"
+								name="firstName" class="form-control">
 						</div>
 						<div class="form-group">
-							<label for="file">Arquivo</label> <input type="file" name="file"
-								class="form-control" />
+							<label for="lastName">Sobrenome</label> <input type="text"
+								name="lastName" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="file">Currículo</label> <input type="file"
+								name="file" class="form-control" />
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-default" value="Adicionar">
@@ -61,22 +62,26 @@
 					</form>
 				</c:when>
 				<c:otherwise>
-					<h3 class="sub-header">Editar Documento</h3>
-					
+					<h3 class="sub-header">Editar Colaborador</h3>
+
 					<!--  Form -->
 					<form method="POST" action="${addAction}"
 						enctype="multipart/form-data" class="form">
+						<input type="number" name="id" class="form-control"
+							value="${collaborator.id}" readonly />
 						<div class="form-group">
-							<label for="id">Número Identificador</label>
-							<input type="number" name="id" class="form-control" value="${document.id}" readonly/>
+							<label for="firstName">Nome</label> <input type="text"
+								name="firstName" class="form-control"
+								value="${collaborator.firstName}">
 						</div>
 						<div class="form-group">
-							<label for="name">Nome</label> <input type="text" name="name"
-								class="form-control" value="${document.name}"/>
+							<label for="lastName">Sobrenome</label> <input type="text"
+								name="lastName" class="form-control"
+								value="${collaborator.lastName}">
 						</div>
 						<div class="form-group">
-							<label for="file">Arquivo</label> <input type="file" name="file"
-								class="form-control" />
+							<label for="file">Currículo</label> <input type="file"
+								name="file" class="form-control" />
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-default" value="Editar">
@@ -85,32 +90,34 @@
 				</c:otherwise>
 			</c:choose>
 
-			<c:if test="${!empty documents && empty document.name}">
-				<h3 class="sub-header">Lista de Documentos</h3>
+			<c:if test="${!empty collaborators && empty collaborator.firstName}">
+				<h3 class="sub-header">Lista de Pessoas Registradas</h3>
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
 							<tr>
 								<th>#</th>
 								<th>Nome</th>
-								<th>Documento</th>
+								<th>Sobrenome</th>
+								<th>Currículo</th>
 								<th>Modificar</th>
 								<th>Remover</th>
 							</tr>
 						<thead>
 						<tbody>
-							<c:forEach items="${documents}" var="document">
+							<c:forEach items="${collaborators}" var="collaborator">
 								<tr>
-									<td>${document.id}</td>
-									<td>${document.name}</td>
+									<td>${collaborator.id}</td>
+									<td>${collaborator.firstName}</td>
+									<td>${collaborator.lastName}</td>
 									<td><a
-										href="<c:url value='/documents/show/${document.id}' />"><i
+										href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
 											class="material-icons" style="font-size: 18px">file_download</i></a></td>
 									<td><a
-										href="<c:url value='/documents/edit/${document.id}' />"><i
+										href="<c:url value='/collaborators/edit/${collaborator.id}' />"><i
 											class="material-icons" style="font-size: 18px">edit</i></a></td>
 									<td><a
-										href="<c:url value='/documents/remove/${document.id}' />"><i
+										href="<c:url value='/collaborators/remove/${collaborator.id}' />"><i
 											class="material-icons" style="font-size: 18px">delete</i></a></td>
 								</tr>
 							</c:forEach>
