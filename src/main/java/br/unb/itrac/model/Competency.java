@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Competency {
@@ -20,6 +21,9 @@ public class Competency {
 
 	@ManyToOne(cascade = CascadeType.REFRESH)
 	private CompetencyCategory competencyCategory;
+
+	@OneToOne
+	private Contract contract;
 
 	public int getId() {
 		return id;
@@ -51,6 +55,14 @@ public class Competency {
 
 	public void setCompetencyCategory(CompetencyCategory competencyCategory) {
 		this.competencyCategory = competencyCategory;
+	}
+
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 
 	@Override

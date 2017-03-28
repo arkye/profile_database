@@ -11,6 +11,8 @@ public interface CompetencyDAO {
 	public void updateCompetency(Competency competency);
 
 	public List<Competency> listCompetencies();
+	
+	public List<Competency> listCompetenciesWithoutContract();
 
 	public Competency getCompetencyById(int id);
 

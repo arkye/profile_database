@@ -48,7 +48,7 @@ public class CompetencyController {
 	}
 
 	@RequestMapping(value = "/competencies", method = RequestMethod.GET)
-	public String listCompetencys(Model model) {
+	public String listCompetencies(Model model) {
 		model.addAttribute("competency", new Competency());
 		model.addAttribute("competencyCategories", this.competencyCategoryService.listCompetencyCategories());
 		model.addAttribute("competencies", this.competencyService.listCompetencies());

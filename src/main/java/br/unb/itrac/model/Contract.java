@@ -4,10 +4,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Contract {
@@ -22,9 +26,13 @@ public class Contract {
 
 	private String supervisorName;
 
-	@ManyToMany(cascade = CascadeType.REFRESH)
+	@OneToMany(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)
 	private List<Competency> competencies;
-	
+
+	@OneToMany(cascade = CascadeType.REFRESH)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Document> documents;
+
 	public int getId() {
 		return id;
 	}
@@ -64,7 +72,15 @@ public class Contract {
 	public void setCompetencies(List<Competency> competencies) {
 		this.competencies = competencies;
 	}
-	
+
+	public List<Document> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
+
 	@Override
 	public String toString() {
 		return "(" + id + ") - " + name + ", " + description;

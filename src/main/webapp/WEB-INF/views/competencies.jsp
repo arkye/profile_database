@@ -96,6 +96,7 @@
 										<th>Nome</th>
 										<th>Descrição</th>
 										<th>Categoria de Competência</th>
+										<th>Contrato</th>
 										<th>Modificar</th>
 										<th>Remover</th>
 									</tr>
@@ -107,6 +108,10 @@
 											<td>${competency.name}</td>
 											<td>${competency.description}</td>
 											<td>${competency.competencyCategory.name}</td>
+											<td><c:choose>
+													<c:when test="${!empty competency.contract}">${competency.contract.name}</c:when>
+													<c:otherwise>Sem contrato associado</c:otherwise>
+												</c:choose></td>
 											<td><a
 												href="<c:url value='/competencies/edit/${competency.id}' />"><i
 													class="material-icons" style="font-size: 18px">edit</i></a></td>

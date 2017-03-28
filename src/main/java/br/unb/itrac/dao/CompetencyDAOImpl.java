@@ -1,5 +1,6 @@
 package br.unb.itrac.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -42,6 +43,20 @@ public class CompetencyDAOImpl implements CompetencyDAO {
 			logger.info("[Competency][LIST]:" + competency);
 		}
 		return competencies;
+	}
+
+	@Override
+	public List<Competency> listCompetenciesWithoutContract() {
+		Session session = this.sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Competency> competencies = session.createQuery("from Competency").list();
+		List<Competency> filteredCompetencies = new ArrayList<>();
+		for (Competency competency : competencies) {
+			if (competency.getContract() == null || competency.getContract().getId() == 0) {
+				filteredCompetencies.add(competency);
+			}
+		}
+		return filteredCompetencies;
 	}
 
 	@Override

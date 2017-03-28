@@ -33,6 +33,12 @@ public class CompetencyServiceImpl implements CompetencyService {
 	public List<Competency> listCompetencies() {
 		return this.competencyDAO.listCompetencies();
 	}
+	
+	@Override
+	@Transactional
+	public List<Competency> listCompetenciesWithoutContract() {
+		return this.competencyDAO.listCompetenciesWithoutContract();
+	}
 
 	@Override
 	@Transactional
