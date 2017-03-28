@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
-<title>Escalas de Competência</title>
+<title>Competências</title>
 </head>
 
 <body>

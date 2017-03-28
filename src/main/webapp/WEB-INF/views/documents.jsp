@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
-<title>Escalas de Competência</title>
+<title>Documentos</title>
 </head>
 
 <body>
@@ -20,13 +20,8 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="/competencies"/>">Competências</a>
-					<li><a href="<c:url value="/competency-categories"/>">Categorias
-							de Competência</a></li>
-					<li class="active"><a href="#">Escalas de Competência<span
+					<li class="active"><a href="#">Documentos<span
 							class="sr-only">(atual)</span></a></li>
-					<li><a href="<c:url value="/scale-options"/>">Opções de
-							Escala</a></li>
 				</ul>
 			</div>
 		</div>
@@ -46,7 +41,8 @@
 					<!--  Form -->
 					<form method="POST" action="${addAction}"
 						enctype="multipart/form-data" class="form">
-						<input type="number" name="id" class="form-control" value=0 style="visibility: hidden"/>
+						<input type="number" name="id" class="form-control" value=0
+							style="visibility: hidden" />
 						<div class="form-group">
 							<label for="name">Nome</label> <input type="text" name="name"
 								class="form-control">
@@ -62,17 +58,17 @@
 				</c:when>
 				<c:otherwise>
 					<h3 class="sub-header">Editar Documento</h3>
-					
+
 					<!--  Form -->
 					<form method="POST" action="${addAction}"
 						enctype="multipart/form-data" class="form">
 						<div class="form-group">
-							<label for="id">Número Identificador</label>
-							<input type="number" name="id" class="form-control" value="${document.id}" readonly/>
+							<label for="id">Número Identificador</label> <input type="number"
+								name="id" class="form-control" value="${document.id}" readonly />
 						</div>
 						<div class="form-group">
 							<label for="name">Nome</label> <input type="text" name="name"
-								class="form-control" value="${document.name}"/>
+								class="form-control" value="${document.name}" />
 						</div>
 						<div class="form-group">
 							<label for="file">Arquivo</label> <input type="file" name="file"

@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-
 @Entity
 public class Collaborator {
 
@@ -19,7 +18,7 @@ public class Collaborator {
 
 	private String lastName;
 
-	@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToOne(cascade = CascadeType.REMOVE)
 	private Document resume;
 
 	public int getId() {

@@ -13,13 +13,14 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Banco de Talentos</a>
+			<a class="navbar-brand" href="<c:url value="/"/>"><img src="<c:url value="/resources/img/logo_white.png"/>" height="25"></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="<c:url value="/"/>">Início</a></li>
-				<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
+				<li><a href="<c:url value="/collaborators"/>">Perfis</a></li>
 				<li><a href="<c:url value="/competencies"/>">Competências</a></li>
+				<li><a href="<c:url value="/documents"/>">Administrativo</a></li>
 				<li><a href="#">Ajuda</a></li>
 			</ul>
 		</div>

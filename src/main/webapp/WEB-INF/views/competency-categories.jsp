@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
-<title>Escalas de Competência</title>
+<title>Categorias de Competência</title>
 </head>
 
 <body>
@@ -85,7 +85,8 @@
 						</c:choose>
 					</form:form>
 
-					<c:if test="${!empty competencyCategories && empty competencyCategory.name}">
+					<c:if
+						test="${!empty competencyCategories && empty competencyCategory.name}">
 						<h3 class="sub-header">Lista de Categorias de Competência</h3>
 						<div class="table-responsive">
 							<table class="table table-striped">

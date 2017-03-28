@@ -85,7 +85,8 @@
 						</c:choose>
 					</form:form>
 
-					<c:if test="${!empty competencyScales && empty competencyScale.name}">
+					<c:if
+						test="${!empty competencyScales && empty competencyScale.name}">
 						<h3 class="sub-header">Lista de Escalas de Competência</h3>
 						<div class="table-responsive">
 							<table class="table table-striped">
