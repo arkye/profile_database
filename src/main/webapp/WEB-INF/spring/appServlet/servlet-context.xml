@@ -25,6 +25,11 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="20971520"/> <!-- 20MB -->
+		<beans:property name="maxInMemorySize" value="20971520"/> <!-- 20MB -->
+	</beans:bean>
+	
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<beans:property name="url" value="jdbc:mysql://localhost:3306/bancotalentos?useLegacyDatetimeCode=false&amp;serverTimezone=UCT"/>
@@ -42,6 +47,7 @@
 				<beans:value>br.unb.itrac.model.CompetencyCategory</beans:value>
 				<beans:value>br.unb.itrac.model.Competency</beans:value>
 				<beans:value>br.unb.itrac.model.Person</beans:value>
+				<beans:value>br.unb.itrac.model.Document</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -94,6 +100,13 @@
 	</beans:bean>
 	<beans:bean id="personService" class="br.unb.itrac.service.PersonServiceImpl">
 		<beans:property name="personDAO" ref="personDAO"/>
+	</beans:bean>
+	
+	<beans:bean id="documentDAO" class="br.unb.itrac.dao.DocumentDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="documentService" class="br.unb.itrac.service.DocumentServiceImpl">
+		<beans:property name="documentDAO" ref="documentDAO"/>
 	</beans:bean>
 	
 	<context:component-scan base-package="br.unb.itrac" />
