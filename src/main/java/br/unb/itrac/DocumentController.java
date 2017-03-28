@@ -32,31 +32,20 @@ public class DocumentController {
 		model.addAttribute("documents", this.documentService.listDocuments());
 		return "documents";
 	}
-	
-	@RequestMapping(value = "/documents/show/{id}", produces = "application/pdf", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/documents/show/{id}", produces = "application/pdf", method = RequestMethod.GET)
 	public String showDocument(@PathVariable("id") int id, HttpServletResponse response) {
-		try {
-			Document document = this.documentService.getDocumentById(id);
-			byte[] file = document.getFile();
-			response.setContentLength(file.length);
-			response.getOutputStream().write(file);
-		} catch(Exception e) {
-			// Do Nothing
-		}
-		
+		this.documentService.serveDocument(id, response);
 		return null;
 	}
 
 	@RequestMapping(value = "/documents/add", method = RequestMethod.POST)
-	public String addDocument(@RequestParam("name") String name, @RequestParam("file") CommonsMultipartFile file) {
-		Document document = new Document();
-		document.setName(name);
-		document.setFileName(file.getOriginalFilename());
-		document.setFile(file.getBytes());
-		if (document.getId() == 0) {
-			this.documentService.addDocument(document);
+	public String addDocument(@RequestParam("id") int id, @RequestParam("name") String name,
+			@RequestParam("file") CommonsMultipartFile file) {
+		if (id == 0) {
+			this.documentService.addDocument(name, file);
 		} else {
-			this.documentService.updateDocument(document);
+			this.documentService.updateDocument(id, name, file);
 		}
 		return "redirect:/documents";
 	}

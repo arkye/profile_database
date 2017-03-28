@@ -18,7 +18,7 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="<c:url value="/"/>">Início</a></li>
-				<li><a href="<c:url value="/people"/>">Pessoas</a></li>
+				<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
 				<li><a href="<c:url value="/competencies"/>">Competências</a></li>
 				<li><a href="#">Ajuda</a></li>
 			</ul>
