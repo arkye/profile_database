@@ -66,6 +66,7 @@ public class ContractController {
 	public String showContract(@PathVariable("id") int id, Model model) {
 		Contract contract = this.contractService.getContractById(id);
 		model.addAttribute("contract", contract);
+		model.addAttribute("contracts", this.contractService.listContracts());
 		model.addAttribute("competencies", this.competencyService.listCompetenciesWithoutContract());
 		return "contract";
 	}

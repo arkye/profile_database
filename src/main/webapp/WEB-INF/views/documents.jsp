@@ -99,9 +99,10 @@
 								<tr>
 									<td>${document.id}</td>
 									<td>${document.name}</td>
-									<td><a
-										href="<c:url value='/documents/show/${document.id}' />"><i
-											class="material-icons" style="font-size: 18px">file_download</i></a></td>
+									<td><c:if test="${!empty document.fileName}">
+											<a href="<c:url value='/documents/show/${document.id}' />"><i
+												class="material-icons" style="font-size: 18px">file_download</i></a>
+										</c:if></td>
 									<td><a
 										href="<c:url value='/documents/edit/${document.id}' />"><i
 											class="material-icons" style="font-size: 18px">edit</i></a></td>

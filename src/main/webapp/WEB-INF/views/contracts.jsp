@@ -20,9 +20,17 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
-					<li class="active"><a href="#">Contratos<span class="sr-only">(atual)</span></a></li>
-					<li><a href="<c:url value="/collaborators"/>">Colaboradores</a>
+					<c:choose>
+						<c:when test="${!empty contracts}">
+							<c:forEach items="${contracts}" var="otherContract">
+								<li><a
+									href="<c:url value="/contracts/edit/${otherContract.id}"/>">${otherContract.name}</a></li>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li><a>Sem contratos definidos</a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

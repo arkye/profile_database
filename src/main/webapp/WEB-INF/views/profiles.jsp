@@ -20,10 +20,17 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="<c:url value="#"/>">Perfis<span
-							class="sr-only">(atual)</span></a></li>
-					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-					<li><a href="<c:url value="/collaborators"/>">Colaboradores</a>
+					<c:choose>
+						<c:when test="${!empty profiles}">
+							<c:forEach items="${profiles}" var="otherProfile">
+								<li><a
+									href="<c:url value="/profiles/edit/${otherProfile.id}"/>">${otherProfile.name}</a></li>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li><a>Sem perfis definidos</a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>
@@ -43,17 +50,18 @@
 					<form:form action="${addAction}" commandName="profile" class="form">
 						<div class="form-group">
 							<label for="name">Nome</label>
-							<form:input path="name" class="form-control" required="required"/>
+							<form:input path="name" class="form-control" required="required" />
 						</div>
 						<div class="form-group">
 							<label for="description">Descrição</label>
-							<form:input path="description" class="form-control" required="required"/>
+							<form:input path="description" class="form-control"
+								required="required" />
 						</div>
-						<label for="competencyScale">Contrato</label>
+						<label for="contract">Contrato</label>
 						<div class="form-group">
 							<form:select path="contract" class="form-control"
 								multiple="false" items="${contracts}" itemLabel="name"
-								itemValue="id" required="required"/>
+								itemValue="id" required="required" />
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-default">Adicionar</button>

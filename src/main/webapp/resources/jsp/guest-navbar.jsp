@@ -17,8 +17,6 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<c:url value="/"/>">Início</a></li>
-				<li><a href="#">Ajuda</a></li>
 			</ul>
 		</div>
 	</div>

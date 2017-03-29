@@ -20,10 +20,28 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
-					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-					<li class="active"><a href="#">Colaboradores<span
-							class="sr-only">(atual)</span></a>
+					<c:choose>
+						<c:when test="${!empty collaborators}">
+							<c:if test="${!empty collaborator.firstName}">
+								<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
+							</c:if>
+							<c:forEach items="${collaborators}" var="otherCollaborator">
+								<c:choose>
+									<c:when test="${otherCollaborator.id == collaborator.id}">
+										<li class="active"><a href="#">${collaborator.firstName} ${collaborator.lastName}<span
+												class="sr-only">(atual)</span></a>
+									</c:when>
+									<c:otherwise>
+										<li><a
+											href="<c:url value="/collaborators/edit/${otherCollaborator.id}"/>">${otherCollaborator.firstName} ${otherCollaborator.lastName}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li><a>Sem colaboradores definidos</a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

@@ -21,11 +21,18 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
-					<li class="active"><a href="#">Perfil: ${profile.name}<span
-							class="sr-only">(atual)</span>
-					</a></li>
-					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-					<li><a href="<c:url value="/collaborators"/>">Colaboradores</a>
+					<c:forEach items="${profiles}" var="otherProfile">
+						<c:choose>
+							<c:when test="${otherProfile.id == profile.id}">
+								<li class="active"><a href="#">${profile.name}<span
+										class="sr-only">(atual)</span></a>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="<c:url value="/profiles/edit/${otherProfile.id}"/>">${otherProfile.name}</a></li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
@@ -47,16 +54,18 @@
 				</div>
 				<div class="form-group">
 					<label for="name">Nome</label>
-					<form:input path="name" class="form-control" required="required"/>
+					<form:input path="name" class="form-control" required="required" />
 				</div>
 				<div class="form-group">
 					<label for="description">Descrição</label>
-					<form:input path="description" class="form-control" required="required"/>
+					<form:input path="description" class="form-control"
+						required="required" />
 				</div>
-				<label for="competencyScale">Contrato</label>
+				<label for="contract">Contrato</label>
 				<div class="form-group">
 					<form:select path="contract" class="form-control" multiple="false"
-						items="${contracts}" itemLabel="name" itemValue="id" required="required"/>
+						items="${contracts}" itemLabel="name" itemValue="id"
+						required="required" />
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-default">Editar</button>
@@ -72,17 +81,16 @@
 								<th>#</th>
 								<th>Nome</th>
 								<th>Descrição</th>
-								<th>Categoria de Competência</th>
 								<th>Remover do Perfil</th>
 							</tr>
 						<thead>
 						<tbody>
-							<c:forEach items="${profile.competencies}" var="competency" varStatus="i">
+							<c:forEach items="${profile.competencies}" var="competency"
+								varStatus="i">
 								<tr>
 									<td>${competency.id}</td>
 									<td>${competency.name}</td>
 									<td>${competency.description}</td>
-									<td>${competency.competencyCategory.name}</td>
 									<td><a
 										href="<c:url value='/profiles/edit/${profile.id}/remove/competency/${i.index}' />"><i
 											class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
@@ -113,7 +121,6 @@
 									<td>${competency.id}</td>
 									<td>${competency.name}</td>
 									<td>${competency.description}</td>
-									<td>${competency.competencyCategory.name}</td>
 									<td><a
 										href="<c:url value='/profiles/edit/${profile.id}/add/competency/${competency.id}' />"><i
 											class="material-icons" style="font-size: 18px">add_circle</i></a></td>
@@ -177,9 +184,10 @@
 									<td>${collaborator.id}</td>
 									<td>${collaborator.firstName}</td>
 									<td>${collaborator.lastName}</td>
-									<td><a
-										href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
-											class="material-icons" style="font-size: 18px">file_download</i></a></td>
+									<td><c:if test="${!empty collaborator.resume.fileName}">
+											<a href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
+												class="material-icons" style="font-size: 18px">file_download</i></a>
+										</c:if></td>
 									<td><a
 										href="<c:url value='/profiles/edit/${profile.id}/add/collaborator/${collaborator.id}' />"><i
 											class="material-icons" style="font-size: 18px">add_circle</i></a></td>

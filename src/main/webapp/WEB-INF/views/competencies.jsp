@@ -20,14 +20,28 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">Competências<span
-							class="sr-only">(atual)</span></a>
-					<li><a href="<c:url value="/competency-categories"/>">Categorias
-							de Competência</a></li>
-					<li><a href="<c:url value="/competency-scales"/>">Escalas
-							de Competência</a></li>
-					<li><a href="<c:url value="/scale-options"/>">Opções de
-							Escala</a></li>
+					<c:choose>
+						<c:when test="${!empty competencies}">
+							<c:if test="${!empty competency.name}">
+								<li><a href="<c:url value="/competencies"/>">Competências</a></li>
+							</c:if>
+							<c:forEach items="${competencies}" var="otherCompetency">
+								<c:choose>
+									<c:when test="${otherCompetency.id == competency.id}">
+										<li class="active"><a href="#">${competency.name}<span
+												class="sr-only">(atual)</span></a>
+									</c:when>
+									<c:otherwise>
+										<li><a
+											href="<c:url value="/competencies/edit/${otherCompetency.id}"/>">${otherCompetency.name}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li><a>Sem competências definidas</a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>
@@ -46,94 +60,75 @@
 				</c:otherwise>
 			</c:choose>
 
-			<c:choose>
-				<c:when test="${!empty competencyCategories}">
-					<!-- Action -->
-					<c:url var="addAction" value="/competencies/add"></c:url>
+			<!-- Action -->
+			<c:url var="addAction" value="/competencies/add"></c:url>
 
-					<!--  Form -->
-					<form:form action="${addAction}" commandName="competency"
-						class="form">
-						<c:if test="${!empty competency.name}">
-							<div class="form-group">
-								<label for="id">Número Identificador</label>
-								<form:input path="id" readonly="true" class="form-control" />
-							</div>
-						</c:if>
-						<div class="form-group">
-							<label for="name">Nome</label>
-							<form:input path="name" class="form-control" required="required"/>
-						</div>
-						<div class="form-group">
-							<label for="description">Descrição</label>
-							<form:input path="description" class="form-control" required="required"/>
-						</div>
-						<label for="competencyCategory">Categoria de Competência</label>
-						<div class="form-group">
-							<form:select path="competencyCategory" class="form-control"
-								multiple="false" items="${competencyCategories}"
-								itemLabel="name" itemValue="id" required="required"/>
-						</div>
+			<!--  Form -->
+			<form:form action="${addAction}" commandName="competency"
+				class="form">
+				<c:if test="${!empty competency.name}">
+					<div class="form-group">
+						<label for="id">Número Identificador</label>
+						<form:input path="id" readonly="true" class="form-control" />
+					</div>
+				</c:if>
+				<div class="form-group">
+					<label for="name">Nome</label>
+					<form:input path="name" class="form-control" required="required" />
+				</div>
+				<div class="form-group">
+					<label for="description">Descrição</label>
+					<form:input path="description" class="form-control"
+						required="required" />
+				</div>
 
-						<div class="form-group"></div>
-						<c:choose>
-							<c:when test="${empty competency.name}">
-								<button type="submit" class="btn btn-default">Adicionar</button>
-							</c:when>
-							<c:otherwise>
-								<button type="submit" class="btn btn-default">Editar</button>
-							</c:otherwise>
-						</c:choose>
-					</form:form>
+				<div class="form-group"></div>
+				<c:choose>
+					<c:when test="${empty competency.name}">
+						<button type="submit" class="btn btn-default">Adicionar</button>
+					</c:when>
+					<c:otherwise>
+						<button type="submit" class="btn btn-default">Editar</button>
+					</c:otherwise>
+				</c:choose>
+			</form:form>
 
-					<c:if test="${!empty competencies && empty competency.name}">
-						<h3 class="sub-header">Lista de Categorias de Competência</h3>
-						<div class="table-responsive">
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>Nome</th>
-										<th>Descrição</th>
-										<th>Categoria de Competência</th>
-										<th>Contrato</th>
-										<th>Modificar</th>
-										<th>Remover</th>
-									</tr>
-								<thead>
-								<tbody>
-									<c:forEach items="${competencies}" var="competency">
-										<tr>
-											<td>${competency.id}</td>
-											<td>${competency.name}</td>
-											<td>${competency.description}</td>
-											<td>${competency.competencyCategory.name}</td>
-											<td><c:choose>
-													<c:when test="${!empty competency.contract}">${competency.contract.name}</c:when>
-													<c:otherwise>Sem contrato associado</c:otherwise>
-												</c:choose></td>
-											<td><a
-												href="<c:url value='/competencies/edit/${competency.id}' />"><i
-													class="material-icons" style="font-size: 18px">edit</i></a></td>
-											<td><a
-												href="<c:url value='/competencies/remove/${competency.id}' />"><i
-													class="material-icons" style="font-size: 18px">delete</i></a></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					</c:if>
-				</c:when>
-				<c:otherwise>
-					<p>
-						<strong>Dica</strong>: Para criar uma nova competência é
-						necessário, antes, definir uma categoria de competência. Para
-						definir uma categoria de competência, <a
-							href="<c:url value="competency-categories"/>">clique aqui</a>.
-					</p>
-				</c:otherwise>
-			</c:choose>
+			<c:if test="${!empty competencies && empty competency.name}">
+				<h3 class="sub-header">Lista de Categorias de Competência</h3>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Nome</th>
+								<th>Descrição</th>
+								<th>Contrato</th>
+								<th>Modificar</th>
+								<th>Remover</th>
+							</tr>
+						<thead>
+						<tbody>
+							<c:forEach items="${competencies}" var="competency">
+								<tr>
+									<td>${competency.id}</td>
+									<td>${competency.name}</td>
+									<td>${competency.description}</td>
+									<td><c:choose>
+											<c:when test="${!empty competency.contract.name}">${competency.contract.name}</c:when>
+											<c:otherwise>Sem contrato associado</c:otherwise>
+										</c:choose></td>
+									<td><a
+										href="<c:url value='/competencies/edit/${competency.id}' />"><i
+											class="material-icons" style="font-size: 18px">edit</i></a></td>
+									<td><a
+										href="<c:url value='/competencies/remove/${competency.id}' />"><i
+											class="material-icons" style="font-size: 18px">delete</i></a></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</c:if>
 		</div>
 	</div>
 

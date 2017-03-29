@@ -1,11 +1,9 @@
 package br.unb.itrac.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -18,9 +16,6 @@ public class Competency {
 	private String name;
 
 	private String description;
-
-	@ManyToOne(cascade = CascadeType.REFRESH)
-	private CompetencyCategory competencyCategory;
 
 	@OneToOne
 	private Contract contract;
@@ -49,14 +44,6 @@ public class Competency {
 		this.description = description;
 	}
 
-	public CompetencyCategory getCompetencyCategory() {
-		return competencyCategory;
-	}
-
-	public void setCompetencyCategory(CompetencyCategory competencyCategory) {
-		this.competencyCategory = competencyCategory;
-	}
-
 	public Contract getContract() {
 		return contract;
 	}
@@ -68,9 +55,6 @@ public class Competency {
 	@Override
 	public String toString() {
 		String toString = "(" + id + ") - " + name + ": " + description;
-		if (competencyCategory != null) {
-			toString += " with CompetencyCategory: " + competencyCategory.getName();
-		}
 		return toString;
 	}
 }

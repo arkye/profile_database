@@ -104,6 +104,7 @@ public class ProfileController {
 				filteredCompetencies.add(competency);
 			}
 		}
+		model.addAttribute("profiles", this.profileService.listProfiles());
 		model.addAttribute("contracts", this.contractService.listContracts());
 		model.addAttribute("competencies", filteredCompetencies);
 		model.addAttribute("collaborators", this.collaboratorService.listCollaboratorsWithoutThisProfile(profile));

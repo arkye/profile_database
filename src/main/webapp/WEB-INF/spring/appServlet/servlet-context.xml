@@ -14,7 +14,7 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:view-controller path="/" view-name="index"/>
-	<annotation-driven conversion-service="conversionService"/>
+	<mvc:annotation-driven/>
 	<mvc:interceptors>
 		<beans:bean class="br.unb.itrac.interceptor.AuthenticationInterceptor"/>
 	</mvc:interceptors>
@@ -45,9 +45,6 @@
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="annotatedClasses">
 			<beans:list>
-				<beans:value>br.unb.itrac.model.ScaleOption</beans:value>
-				<beans:value>br.unb.itrac.model.CompetencyScale</beans:value>
-				<beans:value>br.unb.itrac.model.CompetencyCategory</beans:value>
 				<beans:value>br.unb.itrac.model.Competency</beans:value>
 				<beans:value>br.unb.itrac.model.Collaborator</beans:value>
 				<beans:value>br.unb.itrac.model.Document</beans:value>
@@ -62,35 +59,6 @@
 				<beans:prop key="hibernate.hbm2ddl.auto">create</beans:prop>
 			</beans:props>
 		</beans:property>
-	</beans:bean>
-	
-	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-		<beans:property name="converters">
-			<beans:set>
-				<beans:bean class="br.unb.itrac.converter.ScaleOptionToStringConverter"/>
-			</beans:set>
-		</beans:property>
-	</beans:bean>
-	
-	<beans:bean id="scaleOptionDAO" class="br.unb.itrac.dao.ScaleOptionDAOImpl">
-		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
-	</beans:bean>
-	<beans:bean id="scaleOptionService" class="br.unb.itrac.service.ScaleOptionServiceImpl">
-		<beans:property name="scaleOptionDAO" ref="scaleOptionDAO"/>
-	</beans:bean>
-	
-	<beans:bean id="competencyScaleDAO" class="br.unb.itrac.dao.CompetencyScaleDAOImpl">
-		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
-	</beans:bean>
-	<beans:bean id="competencyScaleService" class="br.unb.itrac.service.CompetencyScaleServiceImpl">
-		<beans:property name="competencyScaleDAO" ref="competencyScaleDAO"/>
-	</beans:bean>
-	
-	<beans:bean id="competencyCategoryDAO" class="br.unb.itrac.dao.CompetencyCategoryDAOImpl">
-		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
-	</beans:bean>
-	<beans:bean id="competencyCategoryService" class="br.unb.itrac.service.CompetencyCategoryServiceImpl">
-		<beans:property name="competencyCategoryDAO" ref="competencyCategoryDAO"/>
 	</beans:bean>
 	
 	<beans:bean id="competencyDAO" class="br.unb.itrac.dao.CompetencyDAOImpl">

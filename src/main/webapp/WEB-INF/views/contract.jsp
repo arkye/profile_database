@@ -20,12 +20,19 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
 					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-					<li class="active"><a href="#">Contrato: ${contract.name}<span
-							class="sr-only">(atual)</span>
-					</a></li>
-					<li><a href="<c:url value="/collaborators"/>">Colaboradores</a>
+					<c:forEach items="${contracts}" var="otherContract">
+						<c:choose>
+							<c:when test="${otherContract.id == contract.id}">
+								<li class="active"><a href="#">${contract.name}<span
+										class="sr-only">(atual)</span></a>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="<c:url value="/contracts/edit/${otherContract.id}"/>">${otherContract.name}</a></li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
@@ -128,7 +135,6 @@
 								<th>#</th>
 								<th>Nome</th>
 								<th>Descrição</th>
-								<th>Categoria de Competência</th>
 								<th>Remover do Contrato</th>
 							</tr>
 						<thead>
@@ -139,7 +145,6 @@
 									<td>${competency.id}</td>
 									<td>${competency.name}</td>
 									<td>${competency.description}</td>
-									<td>${competency.competencyCategory.name}</td>
 									<td><a
 										href="<c:url value='/contracts/edit/${contract.id}/remove/competency/${i.index}' />"><i
 											class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
@@ -159,7 +164,6 @@
 								<th>#</th>
 								<th>Nome</th>
 								<th>Descrição</th>
-								<th>Categoria de Competência</th>
 								<th>Adicionar ao Contrato</th>
 							</tr>
 						<thead>
@@ -169,7 +173,6 @@
 									<td>${competency.id}</td>
 									<td>${competency.name}</td>
 									<td>${competency.description}</td>
-									<td>${competency.competencyCategory.name}</td>
 									<td><a
 										href="<c:url value='/contracts/edit/${contract.id}/add/competency/${competency.id}' />"><i
 											class="material-icons" style="font-size: 18px">add_circle</i></a></td>
