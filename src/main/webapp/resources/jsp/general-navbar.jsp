@@ -17,7 +17,7 @@
 				<li><a href="<c:url value="/competencies"/>">Competências</a></li>
 				<li><a href="<c:url value="/documents"/>">Administrativo</a></li>
 				<li><a href="#">Ajuda</a></li>
-				<li><a href="<c:url value="/"/>">Sair</a></li>
+				<li><a href="<c:url value="/sign_out"/>">Sair</a></li>
 			</ul>
 		</div>
 	</div>
