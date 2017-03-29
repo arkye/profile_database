@@ -1,5 +1,6 @@
 package br.unb.itrac.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import br.unb.itrac.dao.CollaboratorDAO;
 import br.unb.itrac.dao.CollaboratorDAOImpl;
 import br.unb.itrac.model.Collaborator;
+import br.unb.itrac.model.Profile;
 
 public class CollaboratorServiceImpl implements CollaboratorService {
 
@@ -32,6 +34,26 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 	@Transactional
 	public List<Collaborator> listCollaborators() {
 		return this.collaboratorDAO.listCollaborators();
+	}
+	
+	@Override
+	@Transactional
+	public List<Collaborator> listCollaboratorsWithoutThisProfile(Profile profile) {
+		List<Collaborator> collaborators = this.collaboratorDAO.listCollaborators();
+		List<Collaborator> filteredCollaborators = new ArrayList<>();
+		for(Collaborator collaborator : collaborators) {
+			boolean hasProfile = false;
+			for(Profile collaboratorProfile : collaborator.getProfiles()) {
+				if(collaboratorProfile.getId() == profile.getId()) {
+					hasProfile = true;
+					break;
+				}
+			}
+			if(!hasProfile) {
+				filteredCollaborators.add(collaborator);
+			}
+		}
+		return filteredCollaborators;
 	}
 
 	@Override

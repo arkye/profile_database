@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="#"/>">Perfis</a></li>
+					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
 					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
 					<li class="active"><a href="#">Colaboradores<span
 							class="sr-only">(atual)</span></a>

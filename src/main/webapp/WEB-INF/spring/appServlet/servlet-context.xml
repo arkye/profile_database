@@ -49,6 +49,7 @@
 				<beans:value>br.unb.itrac.model.Collaborator</beans:value>
 				<beans:value>br.unb.itrac.model.Document</beans:value>
 				<beans:value>br.unb.itrac.model.Contract</beans:value>
+				<beans:value>br.unb.itrac.model.Profile</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -115,6 +116,13 @@
 	</beans:bean>
 	<beans:bean id="contractService" class="br.unb.itrac.service.ContractServiceImpl">
 		<beans:property name="contractDAO" ref="contractDAO"/>
+	</beans:bean>
+	
+	<beans:bean id="profileDAO" class="br.unb.itrac.dao.ProfileDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="profileService" class="br.unb.itrac.service.ProfileServiceImpl">
+		<beans:property name="profileDAO" ref="profileDAO"/>
 	</beans:bean>
 	
 	<context:component-scan base-package="br.unb.itrac" />

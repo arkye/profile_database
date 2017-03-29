@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
-<title>Contrato: "${contract.name}"</title>
+<title>Contrato: ${contract.name}</title>
 </head>
 
 <body>
@@ -20,10 +20,10 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="#"/>">Perfis</a></li>
-					<li><a href="/contracts">Contratos</a></li>
+					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
+					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
 					<li class="active"><a href="#">Contrato:
-							"${contract.name}"<span class="sr-only">(atual)</span>
+							${contract.name}<span class="sr-only">(atual)</span>
 					</a></li>
 					<li><a href="<c:url value="/collaborators"/>">Colaboradores</a>
 				</ul>
@@ -32,7 +32,7 @@
 
 		<!-- Content -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h1 class="page-header">Contrato: "${contract.name}"</h1>
+			<h1 class="page-header">Contrato: ${contract.name}</h1>
 
 			<h3 class="sub-header">Editar Contrato</h3>
 
@@ -75,7 +75,8 @@
 							</tr>
 						<thead>
 						<tbody>
-							<c:forEach items="${contract.documents}" var="document" varStatus="i">
+							<c:forEach items="${contract.documents}" var="document"
+								varStatus="i">
 								<tr>
 									<td>${document.id}</td>
 									<td>${document.name}</td>
@@ -125,26 +126,26 @@
 								<th>Nome</th>
 								<th>Descrição</th>
 								<th>Categoria de Competência</th>
-								<th>Remover</th>
+								<th>Remover do Contrato</th>
 							</tr>
 						<thead>
 						<tbody>
-							<c:forEach items="${contract.competencies}" var="competency">
+							<c:forEach items="${contract.competencies}" var="competency" varStatus="i">
 								<tr>
 									<td>${competency.id}</td>
 									<td>${competency.name}</td>
 									<td>${competency.description}</td>
 									<td>${competency.competencyCategory.name}</td>
 									<td><a
-										href="<c:url value='/contracts/edit/${contract.id}/remove/competency/${competency.id}' />"><i
-											class="material-icons" style="font-size: 18px">delete</i></a></td>
+										href="<c:url value='/contracts/edit/${contract.id}/remove/competency/${i.index}' />"><i
+											class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 			</c:if>
-			
+
 			<c:if test="${!empty competencies}">
 				<h3 class="sub-header">Lista de Competências sem Contrato</h3>
 				<div class="table-responsive">

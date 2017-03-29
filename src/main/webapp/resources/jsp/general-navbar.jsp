@@ -13,7 +13,7 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<c:url value="/collaborators"/>">Perfis</a></li>
+				<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
 				<li><a href="<c:url value="/competencies"/>">Competências</a></li>
 				<li><a href="<c:url value="/documents"/>">Administrativo</a></li>
 				<li><a href="#">Ajuda</a></li>

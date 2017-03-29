@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
-<title>Contratos</title>
+<title>Perfis</title>
 </head>
 
 <body>
@@ -20,8 +20,9 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
-					<li class="active"><a href="#">Contratos<span class="sr-only">(atual)</span></a></li>
+					<li class="active"><a href="<c:url value="#"/>">Perfis<span
+							class="sr-only">(atual)</span></a></li>
+					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
 					<li><a href="<c:url value="/collaborators"/>">Colaboradores</a>
 				</ul>
 			</div>
@@ -29,15 +30,15 @@
 
 		<!-- Content -->
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h1 class="page-header">Contratos</h1>
+			<h1 class="page-header">Perfis</h1>
 
 			<!-- Action -->
-			<c:url var="addAction" value="/contracts/add"></c:url>
+			<c:url var="addAction" value="/profiles/add"></c:url>
 
-			<h3 class="sub-header">Registrar Novo Contrato</h3>
+			<h3 class="sub-header">Registrar Novo Perfil</h3>
 
 			<!--  Form -->
-			<form:form action="${addAction}" commandName="contract" class="form">
+			<form:form action="${addAction}" commandName="profile" class="form">
 				<div class="form-group">
 					<label for="name">Nome</label>
 					<form:input path="name" class="form-control" />
@@ -46,16 +47,17 @@
 					<label for="description">Descrição</label>
 					<form:input path="description" class="form-control" />
 				</div>
+				<label for="competencyScale">Contrato</label>
 				<div class="form-group">
-					<label for="supervisorName">Nome do Fiscal do Contrato</label>
-					<form:input path="supervisorName" class="form-control" />
+					<form:select path="contract" class="form-control" multiple="false"
+						items="${contracts}" itemLabel="name" itemValue="id" />
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-default">Adicionar</button>
 				</div>
 			</form:form>
 
-			<c:if test="${!empty contracts}">
+			<c:if test="${!empty profiles}">
 				<h3 class="sub-header">Lista de Contratos Registrados</h3>
 				<div class="table-responsive">
 					<table class="table table-striped">
@@ -64,23 +66,23 @@
 								<th>#</th>
 								<th>Nome</th>
 								<th>Descrição</th>
-								<th>Fiscal</th>
+								<th>Contrato</th>
 								<th>Visualizar</th>
 								<th>Remover</th>
 							</tr>
 						<thead>
 						<tbody>
-							<c:forEach items="${contracts}" var="contract">
+							<c:forEach items="${profiles}" var="profile">
 								<tr>
-									<td>${contract.id}</td>
-									<td>${contract.name}</td>
-									<td>${contract.description}</td>
-									<td>${contract.supervisorName}</td>
+									<td>${profile.id}</td>
+									<td>${profile.name}</td>
+									<td>${profile.description}</td>
+									<td>${profile.contract.name}</td>
 									<td><a
-										href="<c:url value='/contracts/edit/${contract.id}' />"><i
+										href="<c:url value='/profiles/edit/${profile.id}' />"><i
 											class="material-icons" style="font-size: 18px">launch</i></a></td>
 									<td><a
-										href="<c:url value='/contracts/remove/${contract.id}' />"><i
+										href="<c:url value='/profiles/remove/${profile.id}' />"><i
 											class="material-icons" style="font-size: 18px">delete</i></a></td>
 								</tr>
 							</c:forEach>
