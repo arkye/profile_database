@@ -45,11 +45,11 @@
 							style="visibility: hidden" />
 						<div class="form-group">
 							<label for="name">Nome</label> <input type="text" name="name"
-								class="form-control">
+								class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label for="file">Arquivo</label> <input type="file" name="file"
-								class="form-control" />
+								class="form-control" required/>
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-default" value="Adicionar">
@@ -68,11 +68,11 @@
 						</div>
 						<div class="form-group">
 							<label for="name">Nome</label> <input type="text" name="name"
-								class="form-control" value="${document.name}" />
+								class="form-control" value="${document.name}" required/>
 						</div>
 						<div class="form-group">
 							<label for="file">Arquivo</label> <input type="file" name="file"
-								class="form-control" />
+								class="form-control" required/>
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-default" value="Editar">

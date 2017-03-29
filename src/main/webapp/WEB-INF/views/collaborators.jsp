@@ -46,11 +46,11 @@
 							style="visibility: hidden" />
 						<div class="form-group">
 							<label for="firstName">Nome</label> <input type="text"
-								name="firstName" class="form-control">
+								name="firstName" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label for="lastName">Sobrenome</label> <input type="text"
-								name="lastName" class="form-control">
+								name="lastName" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label for="file">Currículo</label> <input type="file"
@@ -72,12 +72,12 @@
 						<div class="form-group">
 							<label for="firstName">Nome</label> <input type="text"
 								name="firstName" class="form-control"
-								value="${collaborator.firstName}">
+								value="${collaborator.firstName}" required>
 						</div>
 						<div class="form-group">
 							<label for="lastName">Sobrenome</label> <input type="text"
 								name="lastName" class="form-control"
-								value="${collaborator.lastName}">
+								value="${collaborator.lastName}" required>
 						</div>
 						<div class="form-group">
 							<label for="file">Currículo</label> <input type="file"
@@ -110,9 +110,11 @@
 									<td>${collaborator.id}</td>
 									<td>${collaborator.firstName}</td>
 									<td>${collaborator.lastName}</td>
-									<td><a
-										href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
-											class="material-icons" style="font-size: 18px">file_download</i></a></td>
+									<td><c:if test="${!empty collaborator.resume.fileName}">
+											<a
+												href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
+												class="material-icons" style="font-size: 18px">file_download</i></a>
+										</c:if></td>
 									<td><a
 										href="<c:url value='/collaborators/edit/${collaborator.id}' />"><i
 											class="material-icons" style="font-size: 18px">edit</i></a></td>

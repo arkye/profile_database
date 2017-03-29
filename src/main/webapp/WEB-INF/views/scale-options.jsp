@@ -58,7 +58,7 @@
 				</c:if>
 				<div class="form-group">
 					<label for="name">Nome</label>
-					<form:input path="name" class="form-control" />
+					<form:input path="name" class="form-control" required="required"/>
 				</div>
 				<c:choose>
 					<c:when test="${empty scaleOption.name}">

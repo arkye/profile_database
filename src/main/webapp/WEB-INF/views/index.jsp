@@ -26,11 +26,12 @@
 			enctype="multipart/form-data">
 			<h3 class="form-signin-heading">Entrar no Banco de Perfis</h3>
 			<label for="username" class="sr-only">Usuário</label> <input
-				type="text" name="username" class="form-control" placeholder="Usuário"
-				required autofocus/> <label for="password" class="sr-only">Senha</label>
-			<input type="password" name="password" class="form-control"
-				placeholder="Senha" required />
-			<input class="btn btn-lg btn-primary btn-block" type="submit" value="Entrar">
+				type="text" name="username" class="form-control"
+				placeholder="Usuário" required autofocus /> <label for="password"
+				class="sr-only">Senha</label> <input type="password" name="password"
+				class="form-control" placeholder="Senha" required /> <input
+				class="btn btn-lg btn-primary btn-block" type="submit"
+				value="Entrar">
 		</form>
 	</div>
 

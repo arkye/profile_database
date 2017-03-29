@@ -40,15 +40,15 @@
 			<form:form action="${addAction}" commandName="contract" class="form">
 				<div class="form-group">
 					<label for="name">Nome</label>
-					<form:input path="name" class="form-control" />
+					<form:input path="name" class="form-control" required="required"/>
 				</div>
 				<div class="form-group">
 					<label for="description">Descrição</label>
-					<form:input path="description" class="form-control" />
+					<form:input path="description" class="form-control" required="required"/>
 				</div>
 				<div class="form-group">
 					<label for="supervisorName">Nome do Fiscal do Contrato</label>
-					<form:input path="supervisorName" class="form-control" />
+					<form:input path="supervisorName" class="form-control" required="required"/>
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-default">Adicionar</button>

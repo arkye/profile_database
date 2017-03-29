@@ -47,16 +47,16 @@
 				</div>
 				<div class="form-group">
 					<label for="name">Nome</label>
-					<form:input path="name" class="form-control" />
+					<form:input path="name" class="form-control" required="required"/>
 				</div>
 				<div class="form-group">
 					<label for="description">Descrição</label>
-					<form:input path="description" class="form-control" />
+					<form:input path="description" class="form-control" required="required"/>
 				</div>
 				<label for="competencyScale">Contrato</label>
 				<div class="form-group">
 					<form:select path="contract" class="form-control" multiple="false"
-						items="${contracts}" itemLabel="name" itemValue="id" />
+						items="${contracts}" itemLabel="name" itemValue="id" required="required"/>
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-default">Editar</button>

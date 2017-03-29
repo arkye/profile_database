@@ -62,17 +62,17 @@
 						</c:if>
 						<div class="form-group">
 							<label for="name">Nome</label>
-							<form:input path="name" class="form-control" />
+							<form:input path="name" class="form-control" required="required"/>
 						</div>
 						<div class="form-group">
 							<label for="description">Descrição</label>
-							<form:input path="description" class="form-control" />
+							<form:input path="description" class="form-control" required="required"/>
 						</div>
 						<label for="competencyCategory">Categoria de Competência</label>
 						<div class="form-group">
 							<form:select path="competencyCategory" class="form-control"
 								multiple="false" items="${competencyCategories}"
-								itemLabel="name" itemValue="id" />
+								itemLabel="name" itemValue="id" required="required"/>
 						</div>
 
 						<div class="form-group"></div>

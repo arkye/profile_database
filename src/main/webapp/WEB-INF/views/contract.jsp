@@ -22,8 +22,8 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
 					<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-					<li class="active"><a href="#">Contrato:
-							${contract.name}<span class="sr-only">(atual)</span>
+					<li class="active"><a href="#">Contrato: ${contract.name}<span
+							class="sr-only">(atual)</span>
 					</a></li>
 					<li><a href="<c:url value="/collaborators"/>">Colaboradores</a>
 				</ul>
@@ -47,15 +47,17 @@
 				</div>
 				<div class="form-group">
 					<label for="name">Nome</label>
-					<form:input path="name" class="form-control" />
+					<form:input path="name" class="form-control" required="required" />
 				</div>
 				<div class="form-group">
 					<label for="description">Descrição</label>
-					<form:input path="description" class="form-control" />
+					<form:input path="description" class="form-control"
+						required="required" />
 				</div>
 				<div class="form-group">
 					<label for="supervisorName">Nome do Fiscal do Contrato</label>
-					<form:input path="supervisorName" class="form-control" />
+					<form:input path="supervisorName" class="form-control"
+						required="required" />
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-default">Editar</button>
@@ -80,9 +82,10 @@
 								<tr>
 									<td>${document.id}</td>
 									<td>${document.name}</td>
-									<td><a
-										href="<c:url value='/documents/show/${document.id}' />"><i
-											class="material-icons" style="font-size: 18px">file_download</i></a></td>
+									<td><c:if test="${!empty document.fileName}">
+											<a href="<c:url value='/documents/show/${document.id}' />"><i
+												class="material-icons" style="font-size: 18px">file_download</i></a>
+										</c:if></td>
 									<td><a
 										href="<c:url value='/contracts/edit/${contract.id}/remove/document/${i.index}'/>"><i
 											class="material-icons" style="font-size: 18px">delete</i></a></td>
@@ -105,11 +108,11 @@
 					style="visibility: hidden" />
 				<div class="form-group">
 					<label for="name">Nome</label> <input type="text" name="name"
-						class="form-control">
+						class="form-control" required/>
 				</div>
 				<div class="form-group">
 					<label for="file">Arquivo</label> <input type="file" name="file"
-						class="form-control" />
+						class="form-control" required/>
 				</div>
 				<div class="form-group">
 					<input type="submit" class="btn btn-default" value="Adicionar">
@@ -130,7 +133,8 @@
 							</tr>
 						<thead>
 						<tbody>
-							<c:forEach items="${contract.competencies}" var="competency" varStatus="i">
+							<c:forEach items="${contract.competencies}" var="competency"
+								varStatus="i">
 								<tr>
 									<td>${competency.id}</td>
 									<td>${competency.name}</td>
