@@ -4,6 +4,8 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ import br.unb.itrac.service.ProfileService;
 
 @Controller
 public class ProfileController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
 	private ProfileService profileService;
 	private CompetencyService competencyService;
@@ -92,11 +96,14 @@ public class ProfileController {
 		Profile profile = this.profileService.getProfileById(id);
 		model.addAttribute("profile", profile);
 		List<Competency> filteredCompetencies = new ArrayList<>();
-		for(Competency competency : profile.getContract().getCompetencies()) {
+		List<Competency> contractCompetencies = profile.getContract().getCompetencies();
+		logger.info("" + contractCompetencies.size());
+		for(Competency competency : contractCompetencies) {
 			boolean hasCompetency = false;
 			for(Competency profileCompetency : profile.getCompetencies()) {
 				if(profileCompetency.getId() == competency.getId()) {
 					hasCompetency = true;
+					logger.info(competency.toString());
 					break;
 				}
 			}

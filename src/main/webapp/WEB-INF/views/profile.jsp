@@ -111,7 +111,6 @@
 								<th>#</th>
 								<th>Nome</th>
 								<th>Descrição</th>
-								<th>Categoria de Competência</th>
 								<th>Adicionar ao Perfil</th>
 							</tr>
 						<thead>

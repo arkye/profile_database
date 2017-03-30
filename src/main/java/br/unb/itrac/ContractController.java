@@ -1,5 +1,7 @@
 package br.unb.itrac;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,14 +16,17 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import br.unb.itrac.model.Competency;
 import br.unb.itrac.model.Contract;
 import br.unb.itrac.model.Document;
+import br.unb.itrac.model.Profile;
 import br.unb.itrac.service.CompetencyService;
 import br.unb.itrac.service.ContractService;
 import br.unb.itrac.service.DocumentService;
+import br.unb.itrac.service.ProfileService;
 
 @Controller
 public class ContractController {
 
 	private ContractService contractService;
+	private ProfileService profileService;
 	private CompetencyService competencyService;
 	private DocumentService documentService;
 
@@ -29,6 +34,12 @@ public class ContractController {
 	@Qualifier(value = "contractService")
 	public void setContractService(ContractService contractService) {
 		this.contractService = contractService;
+	}
+	
+	@Autowired(required = true)
+	@Qualifier(value = "profileService")
+	public void setProfileService(ProfileService profileService) {
+		this.profileService = profileService;
 	}
 
 	@Autowired(required = true)
@@ -58,6 +69,19 @@ public class ContractController {
 
 	@RequestMapping("/contracts/remove/{id}")
 	public String removeContract(@PathVariable("id") int id) {
+		List<Profile> profiles = this.profileService.listProfiles();
+		for(Profile profile : profiles) {
+			if(profile.getContract().getId() == id) {
+				profile.setContract(null);
+				this.profileService.removeProfile(profile.getId());
+			}
+		}
+		
+		Contract contract = this.contractService.getContractById(id);
+		for(Competency competency : contract.getCompetencies()) {
+			competency.setContract(null);
+			this.competencyService.updateCompetency(competency);
+		}
 		this.contractService.removeContract(id);
 		return "redirect:/contracts";
 	}
