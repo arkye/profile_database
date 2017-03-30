@@ -96,14 +96,12 @@ public class ProfileController {
 		Profile profile = this.profileService.getProfileById(id);
 		model.addAttribute("profile", profile);
 		List<Competency> filteredCompetencies = new ArrayList<>();
-		List<Competency> contractCompetencies = profile.getContract().getCompetencies();
-		logger.info("" + contractCompetencies.size());
+		List<Competency> contractCompetencies = this.contractService.getContractById(profile.getContract().getId()).getCompetencies();
 		for(Competency competency : contractCompetencies) {
 			boolean hasCompetency = false;
 			for(Competency profileCompetency : profile.getCompetencies()) {
 				if(profileCompetency.getId() == competency.getId()) {
 					hasCompetency = true;
-					logger.info(competency.toString());
 					break;
 				}
 			}
