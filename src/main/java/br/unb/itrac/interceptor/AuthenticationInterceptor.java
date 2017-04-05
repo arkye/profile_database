@@ -12,7 +12,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object controller) {
 		String uri = request.getRequestURI();
-		if(uri.endsWith("/") || uri.endsWith("sign_in") || uri.contains("resources")) {
+		if(uri.endsWith("sign_in") || uri.contains("webjars") || uri.contains("resources") || uri.endsWith("attempt")) {
 			return true;
 		}
 		
@@ -21,7 +21,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		try {
-			response.sendRedirect("/itrac/");
+			response.sendRedirect("/itrac/sign_in");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

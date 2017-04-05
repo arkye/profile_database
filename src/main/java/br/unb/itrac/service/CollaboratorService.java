@@ -15,7 +15,7 @@ public interface CollaboratorService {
 	
 	public List<Collaborator> listCollaboratorsWithoutThisProfile(Profile profile);
 
-	public Collaborator getCollaboratorById(int id);
+	public Collaborator getCollaboratorById(int id) throws Exception;
 
 	public void removeCollaborator(int id);
 }

@@ -38,13 +38,17 @@ public class CollaboratorController {
 	public String listCollaborators(Model model) {
 		model.addAttribute("collaborator", new Collaborator());
 		model.addAttribute("collaborators", this.collaboratorService.listCollaborators());
-		return "collaborators";
+		return "/collaborators";
 	}
 
 	@RequestMapping(value = "/collaborators/{id}/resume", produces = "application/pdf", method = RequestMethod.GET)
 	public String showDocument(@PathVariable("id") int id, HttpServletResponse response) {
-		this.documentService.serveDocument(this.collaboratorService.getCollaboratorById(id).getResume().getId(),
-				response);
+		try {
+			this.documentService.serveDocument(this.collaboratorService.getCollaboratorById(id).getResume().getId(),
+					response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -60,12 +64,17 @@ public class CollaboratorController {
 					this.documentService.addDocument("Currículo " + firstName + " " + lastName.charAt(0), file));
 			this.collaboratorService.addCollaborator(collaborator);
 		} else {
-			Collaborator collaborator = this.collaboratorService.getCollaboratorById(id);
-			collaborator.setFirstName(firstName);
-			collaborator.setLastName(lastName);
-			collaborator.setResume(this.documentService.updateDocument(collaborator.getResume().getId(),
-					collaborator.getResume().getName(), file));
-			this.collaboratorService.updateCollaborator(collaborator);
+			Collaborator collaborator;
+			try {
+				collaborator = this.collaboratorService.getCollaboratorById(id);
+				collaborator.setFirstName(firstName);
+				collaborator.setLastName(lastName);
+				collaborator.setResume(this.documentService.updateDocument(collaborator.getResume().getId(),
+						collaborator.getResume().getName(), file));
+				this.collaboratorService.updateCollaborator(collaborator);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return "redirect:/collaborators";
 	}
@@ -78,7 +87,11 @@ public class CollaboratorController {
 
 	@RequestMapping("/collaborators/edit/{id}")
 	public String editCollaborator(@PathVariable("id") int id, Model model) {
-		model.addAttribute("collaborator", this.collaboratorService.getCollaboratorById(id));
+		try {
+			model.addAttribute("collaborator", this.collaboratorService.getCollaboratorById(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("collaborators", this.collaboratorService.listCollaborators());
 		return "collaborators";
 	}

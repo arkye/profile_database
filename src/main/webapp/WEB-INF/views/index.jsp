@@ -6,35 +6,133 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
-<link rel="stylesheet" href="<c:url value="resources/css/signin.css"/>">
-<title>Banco de Perfis</title>
+<title>Página Inicial</title>
 </head>
 
 <body>
+	<div id="wrapper">
+		<%@include file="/resources/jsp/general-navbar.jsp"%>
 
-	<%@include file="/resources/jsp/guest-navbar.jsp"%>
+		<!-- Sidebar -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav side-nav">
+				<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
+				<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
+				<li><a href="<c:url value="/competencies"/>">Competências</a></li>
+				<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
+			</ul>
+		</div>
 
-	<!-- Container -->
-	<div class="container-fluid">
+		<div id="page-wrapper">
+			<div class="container-fluid">
 
-		<img class="logo-signin center-block"
-			src="<c:url value="/resources/img/logo_no_text.png"/>" height="50">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">Banco de Perfis</h1>
+						<ol class="breadcrumb">
+							<li class="active"><i class="fa fa-dashboard"></i> Início</li>
+						</ol>
+					</div>
+				</div>
 
-		<c:url var="signInAction" value="/sign_in" />
+				<div class="row">
+					<div class="col-lg-3 col-md-6">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="material-icons" style="font-size: 60px">account_box</i>
+									</div>
+									<div class="col-xs-9 text-right">
+										<div class="huge">${quantityOfProfiles}</div>
+										<div>Perfis Cadastrados</div>
+									</div>
+								</div>
+							</div>
+							<a href="<c:url value="/profiles"/>">
+								<div class="panel-footer">
+									<span class="pull-left">Ver Perfis</span> <span
+										class="pull-right"><i class="material-icons">chevron_right</i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+						</div>
+					</div>
 
-		<form action="${signInAction}" class="form-signin" method="POST"
-			enctype="multipart/form-data">
-			<h3 class="form-signin-heading">Entrar no Banco de Perfis</h3>
-			<label for="username" class="sr-only">Usuário</label> <input
-				type="text" name="username" class="form-control"
-				placeholder="Usuário" required autofocus /> <label for="password"
-				class="sr-only">Senha</label> <input type="password" name="password"
-				class="form-control" placeholder="Senha" required /> <input
-				class="btn btn-lg btn-primary btn-block" type="submit"
-				value="Entrar">
-		</form>
+					<div class="col-lg-3 col-md-6">
+						<div class="panel panel-green">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="material-icons" style="font-size: 60px">assignment</i>
+									</div>
+									<div class="col-xs-9 text-right">
+										<div class="huge">${quantityOfContracts}</div>
+										<div>Contratos Cadastrados</div>
+									</div>
+								</div>
+							</div>
+							<a href="<c:url value="/contracts"/>">
+								<div class="panel-footer">
+									<span class="pull-left">Ver Contratos</span> <span
+										class="pull-right"><i class="material-icons">chevron_right</i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-lg-3 col-md-6">
+						<div class="panel panel-yellow">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="material-icons" style="font-size: 60px">school</i>
+									</div>
+									<div class="col-xs-9 text-right">
+										<div class="huge">${quantityOfCompetencies}</div>
+										<div>Competências Cadastradas</div>
+									</div>
+								</div>
+							</div>
+							<a href="<c:url value="/competencies"/>">
+								<div class="panel-footer">
+									<span class="pull-left">Ver Competências</span> <span
+										class="pull-right"><i class="material-icons">chevron_right</i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6">
+						<div class="panel panel-red">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="material-icons" style="font-size: 60px">people</i>
+									</div>
+									<div class="col-xs-9 text-right">
+										<div class="huge">${quantityOfCollaborators}</div>
+										<div>Colaboradores Cadastrados</div>
+									</div>
+								</div>
+							</div>
+							<a href="<c:url value="/collaborators"/>">
+								<div class="panel-footer">
+									<span class="pull-left">Ver Colaboradores</span> <span
+										class="pull-right"><i class="material-icons">chevron_right</i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
 
 </body>

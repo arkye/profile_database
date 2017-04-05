@@ -12,7 +12,7 @@ public interface CollaboratorDAO {
 
 	public List<Collaborator> listCollaborators();
 
-	public Collaborator getCollaboratorById(int id);
+	public Collaborator getCollaboratorById(int id) throws Exception;
 
 	public void removeCollaborator(int id);
 }

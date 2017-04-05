@@ -4,8 +4,6 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -28,8 +26,6 @@ import br.unb.itrac.service.ProfileService;
 
 @Controller
 public class ProfileController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
 	private ProfileService profileService;
 	private CompetencyService competencyService;
@@ -149,10 +145,15 @@ public class ProfileController {
 	@RequestMapping("/profiles/edit/{id}/add/collaborator/{collaborator_id}")
 	public String addCollaborator(@PathVariable("id") int id, @PathVariable("collaborator_id") int collaboratorId) {
 		Profile profile = this.profileService.getProfileById(id);
-		Collaborator collaborator = this.collaboratorService.getCollaboratorById(collaboratorId);
-		collaborator.getProfiles().add(profile);
-		this.collaboratorService.updateCollaborator(collaborator);
-		profile.getCollaborators().add(collaborator);
+		Collaborator collaborator;
+		try {
+			collaborator = this.collaboratorService.getCollaboratorById(collaboratorId);
+			collaborator.getProfiles().add(profile);
+			this.collaboratorService.updateCollaborator(collaborator);
+			profile.getCollaborators().add(collaborator);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.profileService.updateProfile(profile);
 		return "redirect:/profiles/edit/" + id;
 	}

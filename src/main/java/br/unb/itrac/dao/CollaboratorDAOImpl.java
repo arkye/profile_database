@@ -45,7 +45,7 @@ public class CollaboratorDAOImpl implements CollaboratorDAO {
 	}
 
 	@Override
-	public Collaborator getCollaboratorById(int id) {
+	public Collaborator getCollaboratorById(int id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		Collaborator collaborator = (Collaborator) session.load(Collaborator.class, new Integer(id));
 		logger.info("[Collaborator][GET_BY_ID]:" + collaborator);

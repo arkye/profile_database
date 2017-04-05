@@ -58,7 +58,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 	@Override
 	@Transactional
-	public Collaborator getCollaboratorById(int id) {
+	public Collaborator getCollaboratorById(int id) throws Exception{
 		return this.collaboratorDAO.getCollaboratorById(id);
 	}
 

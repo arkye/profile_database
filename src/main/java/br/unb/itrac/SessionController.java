@@ -15,22 +15,27 @@ public class SessionController {
 	// MOCK USER 2 - Role: Administrator
 	// username = "admin" password = "admin"
 
-	@RequestMapping(value = "/sign_in", method = RequestMethod.POST)
+	@RequestMapping(value = "/sign_in/attempt", method = RequestMethod.POST)
 	public String performLogin(HttpSession session, @RequestParam("username") String username, @RequestParam("password") String password) {
 		if(username.equals("user") && password.equals("user")) {
 			session.setAttribute("role", "user");
-			return "redirect:/profiles";
+			return "redirect:/";
 		} else if(username.equals("admin") && password.equals("admin")) {
 			session.setAttribute("role", "admin");
-			return "redirect:/profiles";
+			return "redirect:/";
 		}
 		session.setAttribute("role", null);
-		return "redirect:/";
+		return "/sign_in";
+	}
+	
+	@RequestMapping(value = "/sign_in")
+	public String showSignIn() {
+		return "/sign_in";
 	}
 	
 	@RequestMapping("/sign_out")
 	public String performLogout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/";
+		return "/sign_in";
 	}
 }
