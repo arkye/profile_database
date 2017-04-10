@@ -6,6 +6,8 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>">
 <title>Colaboradores</title>
 </head>
 
@@ -83,8 +85,7 @@
 									<div class="form-group">
 										<input type="submit" class="btn btn-primary" value="Adicionar">
 									</div>
-									<input type="hidden" name="id" class="form-control"
-										value="0"/>
+									<input type="hidden" name="id" class="form-control" value="0" />
 								</form>
 							</c:when>
 							<c:otherwise>
@@ -121,9 +122,10 @@
 					<div class="col">
 						<c:if
 							test="${!empty collaborators && empty collaborator.firstName}">
-							<h3 class="sub-header">Lista de Pessoas Registradas</h3>
+							<h3 class="sub-header">Lista de Colaboradores Registrados</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="collaborators-table"
+									class="table table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -165,6 +167,40 @@
 		</div>
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
-
+	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+	<script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#collaborators-table')
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhum colaborador encontrado",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ colaboradores",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ colaboradores)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ colaboradores por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhum colaborador encontrado",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												}
+											});
+						});
+	</script>
 </body>
 </html>

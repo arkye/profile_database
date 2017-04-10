@@ -7,6 +7,7 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
+<%@include file="/resources/jsp/general-tinymce.jsp"%>
 <title>Perfil: ${profile.name}</title>
 </head>
 
@@ -49,7 +50,7 @@
 						</p>
 						<ol class="breadcrumb">
 							<li>Início</li>
-							<li>Contratos</li>
+							<li>Perfis</li>
 							<li class="active">${profile.name}</li>
 						</ol>
 					</div>
@@ -74,6 +75,12 @@
 							<form:input path="description" class="form-control"
 								required="required" />
 						</div>
+						<div>
+							<label for="technicalQualifications">Qualificações
+								Técnicas</label>
+							<form:textarea path="technicalQualifications"
+								class="tinymce form-control" />
+						</div>
 						<label for="contract">Contrato</label>
 						<div class="form-group">
 							<form:select path="contract" class="form-control"
@@ -87,7 +94,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="panel panel-green">
 							<div class="panel-heading">
 								<div class="row">
@@ -95,7 +102,7 @@
 										<i class="material-icons" style="font-size: 60px">assignment</i>
 									</div>
 									<div class="col-xs-9 text-right">
-										<div class="huge">${profile.contract.name}</div>
+										<div>${profile.contract.name}</div>
 										<div>${profile.contract.description}</div>
 									</div>
 								</div>
@@ -110,7 +117,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="panel panel-yellow">
 							<div class="panel-heading">
 								<div class="row">
@@ -133,7 +140,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="panel panel-red">
 							<div class="panel-heading">
 								<div class="row">
@@ -159,9 +166,59 @@
 
 				<div class="row">
 
+					<div class="col-lg-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="sub-header">Qualificações Técnicas</h3>
+							</div>
+							<div class="panel-body">${profile.technicalQualifications}
+							</div>
+						</div>
+					</div>
 
-					<c:if test="${!empty profile.competencies}">
+					<c:if test="${!empty profile.collaborators}">
 						<div class="col-lg-6">
+							<div class="row">
+								<h3 class="sub-header">Lista de Colaboradores com este
+									Perfil</h3>
+								<div class="table-responsive">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Nome</th>
+												<th>Sobrenome</th>
+												<th>Currículo</th>
+												<th>Remover do Perfil</th>
+											</tr>
+										<thead>
+										<tbody>
+											<c:forEach items="${profile.collaborators}"
+												var="collaborator" varStatus="i">
+												<tr>
+													<td>${collaborator.id}</td>
+													<td>${collaborator.firstName}</td>
+													<td>${collaborator.lastName}</td>
+													<td><a
+														href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
+															class="material-icons" style="font-size: 18px">file_download</i></a></td>
+													<td><a
+														href="<c:url value='/profiles/edit/${profile.id}/remove/collaborator/${i.index}' />"><i
+															class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</c:if>
+
+				</div>
+
+				<div class="row">
+					<c:if test="${!empty profile.competencies}">
+						<div class="col">
 							<h3 class="sub-header">Lista de Competências do Perfil</h3>
 							<div class="table-responsive">
 								<table class="table table-striped">
@@ -190,49 +247,12 @@
 							</div>
 						</div>
 					</c:if>
-
-					<c:if test="${!empty profile.collaborators}">
-						<div class="col-lg-6">
-							<h3 class="sub-header">Lista de Colaboradores com este
-								Perfil</h3>
-							<div class="table-responsive">
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>Nome</th>
-											<th>Sobrenome</th>
-											<th>Currículo</th>
-											<th>Remover do Perfil</th>
-										</tr>
-									<thead>
-									<tbody>
-										<c:forEach items="${profile.collaborators}" var="collaborator"
-											varStatus="i">
-											<tr>
-												<td>${collaborator.id}</td>
-												<td>${collaborator.firstName}</td>
-												<td>${collaborator.lastName}</td>
-												<td><a
-													href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
-														class="material-icons" style="font-size: 18px">file_download</i></a></td>
-												<td><a
-													href="<c:url value='/profiles/edit/${profile.id}/remove/collaborator/${i.index}' />"><i
-														class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</c:if>
-
 				</div>
 
 				<div class="row">
 
 					<c:if test="${!empty competencies}">
-						<div class="col-lg-6">
+						<div class="col">
 							<h3 class="sub-header">Lista de Competências do Contrato não
 								associados à este Perfil</h3>
 							<div class="table-responsive">
@@ -244,8 +264,7 @@
 											<th>Descrição</th>
 											<th>Adicionar ao Perfil</th>
 										</tr>
-										<thead>
-									
+									<thead>
 									<tbody>
 										<c:forEach items="${competencies}" var="competency">
 											<tr>
@@ -262,9 +281,11 @@
 							</div>
 						</div>
 					</c:if>
+				</div>
 
+				<div class="row">
 					<c:if test="${!empty collaborators}">
-						<div class="col-lg-6">
+						<div class="col">
 							<h3 class="sub-header">Lista de Colaboradores não associados
 								à este Perfil</h3>
 							<div class="table-responsive">
@@ -277,9 +298,7 @@
 											<th>Currículo</th>
 											<th>Adicionar ao Perfil</th>
 										</tr>
-									
 									<thead>
-									
 									<tbody>
 
 										<c:forEach items="${collaborators}" var="collaborator">
@@ -291,26 +310,23 @@
 														<a
 															href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
 															class="material-icons" style="font-size: 18px">file_download</i></a>
-													</c:if>
-									</td>
-										<td><a
-											href="<c:url value='/profiles/edit/${profile.id}/add/collaborator/${collaborator.id}' />"><i
-												class="material-icons" style="font-size: 18px">add_circle</i></a></td>
+													</c:if></td>
+												<td><a
+													href="<c:url value='/profiles/edit/${profile.id}/add/collaborator/${collaborator.id}' />"><i
+														class="material-icons" style="font-size: 18px">add_circle</i></a></td>
 											</tr>
 										</c:forEach>
 
-									
+
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</c:if>
-
 				</div>
 			</div>
 		</div>
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
-
 </body>
 </html>

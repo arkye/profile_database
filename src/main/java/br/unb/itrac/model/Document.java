@@ -17,6 +17,7 @@ public class Document implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Lob
 	private String name;
 	
 	private String fileName;

@@ -6,7 +6,9 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
+<%@include file="/resources/jsp/general-tinymce.jsp"%>
 <title>Perfis</title>
+
 </head>
 
 <body>
@@ -47,72 +49,79 @@
 				<div class="row">
 					<c:choose>
 						<c:when test="${!empty contracts}">
-							
+
 							<!-- Action -->
 							<c:url var="addAction" value="/profiles/add"></c:url>
 
-<div class="col">
-							<h3 class="sub-header">Registrar Novo Perfil</h3>
+							<div class="col">
+								<h3 class="sub-header">Registrar Novo Perfil</h3>
 
-							<!--  Form -->
-							<form:form action="${addAction}" commandName="profile"
-								class="form">
-								<div class="form-group">
-									<label for="name">Nome</label>
-									<form:input path="name" class="form-control"
-										required="required" />
-								</div>
-								<div class="form-group">
-									<label for="description">Descrição</label>
-									<form:input path="description" class="form-control"
-										required="required" />
-								</div>
-								<label for="contract">Contrato</label>
-								<div class="form-group">
-									<form:select path="contract" class="form-control"
-										multiple="false" items="${contracts}" itemLabel="name"
-										itemValue="id" required="required" />
-								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary">Adicionar</button>
-								</div>
-							</form:form>
-</div>
-<div class="col">
-							<c:if test="${!empty profiles}">
-								<h3 class="sub-header">Lista de Contratos Registrados</h3>
-								<div class="table-responsive">
-									<table class="table table-striped">
-										<thead>
-											<tr>
-												<th>#</th>
-												<th>Nome</th>
-												<th>Descrição</th>
-												<th>Contrato</th>
-												<th>Visualizar</th>
-												<th>Remover</th>
-											</tr>
-										<thead>
-										<tbody>
-											<c:forEach items="${profiles}" var="profile">
+								<!--  Form -->
+								<form:form action="${addAction}" commandName="profile"
+									class="form" method="POST">
+									<div class="form-group">
+										<label for="name">Nome</label>
+										<form:input path="name" class="form-control"
+											required="required" />
+									</div>
+									<div class="form-group">
+										<label for="description">Descrição</label>
+										<form:input path="description" class="form-control"
+											required="required" />
+									</div>
+									<div>
+										<label for="technicalQualifications">Qualificações
+											Técnicas</label>
+										<form:textarea path="technicalQualifications"
+											class="tinymce form-control" />
+									</div>
+									<label for="contract">Contrato</label>
+									<div class="form-group">
+										<form:select path="contract" class="form-control"
+											multiple="false" items="${contracts}" itemLabel="name"
+											itemValue="id" required="required" />
+									</div>
+									<div class="form-group">
+										<button type="submit" class="btn btn-primary">Adicionar</button>
+									</div>
+								</form:form>
+
+							</div>
+							<div class="col">
+								<c:if test="${!empty profiles}">
+									<h3 class="sub-header">Lista de Perfis Registrados</h3>
+									<div class="table-responsive">
+										<table class="table table-striped">
+											<thead>
 												<tr>
-													<td>${profile.id}</td>
-													<td>${profile.name}</td>
-													<td>${profile.description}</td>
-													<td>${profile.contract.name}</td>
-													<td><a
-														href="<c:url value='/profiles/edit/${profile.id}' />"><i
-															class="material-icons" style="font-size: 18px">launch</i></a></td>
-													<td><a
-														href="<c:url value='/profiles/remove/${profile.id}' />"><i
-															class="material-icons" style="font-size: 18px">delete</i></a></td>
+													<th>#</th>
+													<th>Nome</th>
+													<th>Descrição</th>
+													<th>Contrato</th>
+													<th>Visualizar</th>
+													<th>Remover</th>
 												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
-							</c:if>
-</div>
+											<thead>
+											<tbody>
+												<c:forEach items="${profiles}" var="profile">
+													<tr>
+														<td>${profile.id}</td>
+														<td>${profile.name}</td>
+														<td>${profile.description}</td>
+														<td>${profile.contract.name}</td>
+														<td><a
+															href="<c:url value='/profiles/edit/${profile.id}' />"><i
+																class="material-icons" style="font-size: 18px">launch</i></a></td>
+														<td><a
+															href="<c:url value='/profiles/remove/${profile.id}' />"><i
+																class="material-icons" style="font-size: 18px">delete</i></a></td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</div>
+								</c:if>
+							</div>
 						</c:when>
 						<c:otherwise>
 							<p>
@@ -123,9 +132,9 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
-				</div>
 			</div>
 		</div>
-		<%@include file="/resources/jsp/general-scripts.jsp"%>
+	</div>
+	<%@include file="/resources/jsp/general-scripts.jsp"%>
 </body>
 </html>

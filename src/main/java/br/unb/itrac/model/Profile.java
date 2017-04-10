@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
@@ -19,9 +20,14 @@ public class Profile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Lob
 	private String name;
 
+	@Lob
 	private String description;
+
+	@Lob
+	private String technicalQualifications;
 
 	@OneToOne
 	private Contract contract;
@@ -56,6 +62,14 @@ public class Profile {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getTechnicalQualifications() {
+		return technicalQualifications;
+	}
+
+	public void setTechnicalQualifications(String technicalKnowledge) {
+		this.technicalQualifications = technicalKnowledge;
 	}
 
 	public Contract getContract() {

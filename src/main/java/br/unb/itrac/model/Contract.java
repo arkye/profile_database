@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
@@ -20,8 +21,10 @@ public class Contract {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Lob
 	private String name;
 
+	@Lob
 	private String description;
 
 	private String supervisorName;
