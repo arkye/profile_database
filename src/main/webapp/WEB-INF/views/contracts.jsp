@@ -6,6 +6,8 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>">
 <title>Contratos</title>
 </head>
 
@@ -18,7 +20,9 @@
 			<ul class="nav navbar-nav side-nav">
 				<c:choose>
 					<c:when test="${!empty contracts}">
-						<c:forEach items="${contracts}" var="otherContract">
+						<li class="active"><a href="#">Contratos</a></li>
+						<c:forEach items="${contracts}" begin="0" end="19"
+							var="otherContract">
 							<li><a
 								href="<c:url value="/contracts/edit/${otherContract.id}"/>">${otherContract.name}</a></li>
 						</c:forEach>
@@ -37,8 +41,10 @@
 					<div class="col-lg-12">
 						<h1 class="page-header">Contratos</h1>
 						<ol class="breadcrumb">
-							<li>Início</li>
+							<li><a href="<c:url value="/"/>">Início</a></li>
 							<li class="active">Contratos</li>
+							<li><a href="javascript:;" data-toggle="collapse"
+								data-target="#new">(Registrar Novo Contrato)</a></li>
 						</ol>
 					</div>
 				</div>
@@ -47,7 +53,7 @@
 					<!-- Action -->
 					<c:url var="addAction" value="/contracts/add"></c:url>
 
-					<div class="col">
+					<div class="col collapse" id="new">
 
 						<h3 class="sub-header">Registrar Novo Contrato</h3>
 
@@ -80,7 +86,8 @@
 						<c:if test="${!empty contracts}">
 							<h3 class="sub-header">Lista de Contratos Registrados</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="contracts-table"
+									class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -117,6 +124,45 @@
 		</div>
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
-
+	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+	<script
+		src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#contracts-table')
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhum contrato encontrado",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ contratos",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ contratos)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ contratos por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhum contrato encontrado",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : [ 4, 5 ]
+												} ]
+											});
+						});
+	</script>
 </body>
 </html>

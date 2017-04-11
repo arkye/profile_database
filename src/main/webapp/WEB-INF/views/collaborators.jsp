@@ -20,10 +20,16 @@
 			<ul class="nav navbar-nav side-nav">
 				<c:choose>
 					<c:when test="${!empty collaborators}">
-						<c:if test="${!empty collaborator.firstName}">
-							<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
-						</c:if>
-						<c:forEach items="${collaborators}" var="otherCollaborator">
+						<c:choose>
+							<c:when test="${!empty collaborator.firstName}">
+								<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a href="#">Colaboradores</a></li>
+							</c:otherwise>
+						</c:choose>
+						<c:forEach items="${collaborators}" begin="0" end="19"
+							var="otherCollaborator">
 							<c:choose>
 								<c:when test="${otherCollaborator.id == collaborator.id}">
 									<li class="active"><a href="#">${collaborator.firstName}
@@ -52,8 +58,19 @@
 					<div class="col-lg-12">
 						<h1 class="page-header">Colaboradores</h1>
 						<ol class="breadcrumb">
-							<li>Início</li>
-							<li class="active">Colaboradores</li>
+							<li><a href="<c:url value="/"/>">Início</a></li>
+							<c:choose>
+								<c:when test="${!empty collaborator.firstName}">
+									<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
+									<li class="active">${collaborator.firstName}
+										${collaborator.lastName}</li>
+								</c:when>
+								<c:otherwise>
+									<li class="active">Colaboradores</li>
+									<li><a href="javascript:;" data-toggle="collapse"
+										data-target="#new">(Registrar Novo Colaborador)</a></li>
+								</c:otherwise>
+							</c:choose>
 						</ol>
 					</div>
 				</div>
@@ -62,9 +79,10 @@
 					<!-- Action -->
 					<c:url var="addAction" value="/collaborators/add"></c:url>
 
-					<div class="col">
-						<c:choose>
-							<c:when test="${empty collaborator.firstName}">
+
+					<c:choose>
+						<c:when test="${empty collaborator.firstName}">
+							<div class="col collapse" id="new">
 								<h3 class="sub-header">Registrar Novo Colaborador</h3>
 
 								<!--  Form -->
@@ -87,8 +105,10 @@
 									</div>
 									<input type="hidden" name="id" class="form-control" value="0" />
 								</form>
-							</c:when>
-							<c:otherwise>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="col">
 								<h3 class="sub-header">Editar Colaborador</h3>
 
 								<!--  Form -->
@@ -114,10 +134,10 @@
 										<input type="submit" class="btn btn-primary" value="Editar">
 									</div>
 								</form>
-							</c:otherwise>
-						</c:choose>
+							</div>
+						</c:otherwise>
+					</c:choose>
 
-					</div>
 
 					<div class="col">
 						<c:if
@@ -125,7 +145,7 @@
 							<h3 class="sub-header">Lista de Colaboradores Registrados</h3>
 							<div class="table-responsive">
 								<table id="collaborators-table"
-									class="table table-striped display">
+									class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -168,7 +188,8 @@
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
 	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
-	<script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+	<script
+		src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
 	<script type="text/javascript">
 		$(document)
 				.ready(
@@ -198,7 +219,11 @@
 														"sSortAscending" : ": Ordenar colunas de forma crescente",
 														"sSortDescending" : ": Ordenar colunas de forma decrescente"
 													}
-												}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : [ 3, 4, 5 ]
+												} ]
 											});
 						});
 	</script>

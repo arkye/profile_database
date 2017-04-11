@@ -7,8 +7,9 @@
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
 <%@include file="/resources/jsp/general-tinymce.jsp"%>
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>">
 <title>Perfis</title>
-
 </head>
 
 <body>
@@ -19,9 +20,10 @@
 		<!-- Sidebar -->
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
+				<li class="active"><a href="#">Perfis</a></li>
 				<c:choose>
 					<c:when test="${!empty profiles}">
-						<c:forEach items="${profiles}" var="otherProfile">
+						<c:forEach items="${profiles}" begin="0" end="19" var="otherProfile">
 							<li><a
 								href="<c:url value="/profiles/edit/${otherProfile.id}"/>">${otherProfile.name}</a></li>
 						</c:forEach>
@@ -40,8 +42,10 @@
 					<div class="col-lg-12">
 						<h1 class="page-header">Perfis</h1>
 						<ol class="breadcrumb">
-							<li>Início</li>
+							<li><a href="<c:url value="/"/>">Início</a></li>
 							<li class="active">Perfis</li>
+							<li><a href="javascript:;" data-toggle="collapse"
+										data-target="#new">(Registrar Novo Perfil)</a></li>
 						</ol>
 					</div>
 				</div>
@@ -53,7 +57,7 @@
 							<!-- Action -->
 							<c:url var="addAction" value="/profiles/add"></c:url>
 
-							<div class="col">
+							<div id="new" class="col collapse">
 								<h3 class="sub-header">Registrar Novo Perfil</h3>
 
 								<!--  Form -->
@@ -91,7 +95,7 @@
 								<c:if test="${!empty profiles}">
 									<h3 class="sub-header">Lista de Perfis Registrados</h3>
 									<div class="table-responsive">
-										<table class="table table-striped">
+										<table id="profiles-table" class="table table-bordered table-hover table-striped display">
 											<thead>
 												<tr>
 													<th>#</th>
@@ -136,5 +140,45 @@
 		</div>
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
+		<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+	<script
+		src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#profiles-table')
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhum perfil encontrado",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ perfis",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ perfis)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ perfis por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhum perfil encontrado",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : [ 4, 5 ]
+												} ]
+											});
+						});
+	</script>
 </body>
 </html>

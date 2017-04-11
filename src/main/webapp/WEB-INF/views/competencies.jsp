@@ -6,6 +6,8 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>">
 <title>Competências</title>
 </head>
 
@@ -18,10 +20,16 @@
 			<ul class="nav navbar-nav side-nav">
 				<c:choose>
 					<c:when test="${!empty competencies}">
-						<c:if test="${!empty competency.name}">
-							<li><a href="<c:url value="/competencies"/>">Competências</a></li>
-						</c:if>
-						<c:forEach items="${competencies}" var="otherCompetency">
+						<c:choose>
+							<c:when test="${!empty competency.name}">
+								<li><a href="<c:url value="/competencies"/>">Competências</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a href="#">Competências</a></li>
+							</c:otherwise>
+						</c:choose>
+						<c:forEach items="${competencies}" begin="0" end="19"
+							var="otherCompetency">
 							<c:choose>
 								<c:when test="${otherCompetency.id == competency.id}">
 									<li class="active"><a href="#">${competency.name}<span
@@ -48,63 +56,84 @@
 					<div class="col-lg-12">
 						<h1 class="page-header">Competências</h1>
 						<ol class="breadcrumb">
-							<li>Início</li>
-							<li class="active">Competências</li>
+							<li><a href="<c:url value="/"/>">Início</a></li>
+							<c:choose>
+								<c:when test="${!empty competency.name}">
+									<li><a href="<c:url value="/competencies"/>">Competências</a></li>
+									<li class="active">${competency.name}</li>
+								</c:when>
+								<c:otherwise>
+									<li class="active">Competências</li>
+									<li><a href="javascript:;" data-toggle="collapse"
+										data-target="#new">(Registrar Nova Competência)</a></li>
+								</c:otherwise>
+							</c:choose>
 						</ol>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col">
-						<!-- Add New ScaleOption -->
-						<c:choose>
-							<c:when test="${empty competency.name}">
+					<!-- Action -->
+					<c:url var="addAction" value="/competencies/add"></c:url>
+					<!-- Add New ScaleOption -->
+					<c:choose>
+						<c:when test="${empty competency.name}">
+							<div class="col collapse" id="new">
 								<h3 class="sub-header">Registrar Nova Competência</h3>
-							</c:when>
-							<c:otherwise>
-								<h3 class="sub-header">Editar Competência</h3>
-							</c:otherwise>
-						</c:choose>
 
-						<!-- Action -->
-						<c:url var="addAction" value="/competencies/add"></c:url>
+								<!--  Form -->
+								<form:form action="${addAction}" commandName="competency"
+									class="form">
+									<div class="form-group">
+										<label for="name">Nome</label>
+										<form:input path="name" class="form-control"
+											required="required" />
+									</div>
+									<div class="form-group">
+										<label for="description">Descrição</label>
+										<form:input path="description" class="form-control"
+											required="required" />
+									</div>
 
-						<!--  Form -->
-						<form:form action="${addAction}" commandName="competency"
-							class="form">
-							<c:if test="${!empty competency.name}">
-								<div class="form-group">
-									<label for="id">Número Identificador</label>
-									<form:input path="id" readonly="true" class="form-control" />
-								</div>
-							</c:if>
-							<div class="form-group">
-								<label for="name">Nome</label>
-								<form:input path="name" class="form-control" required="required" />
-							</div>
-							<div class="form-group">
-								<label for="description">Descrição</label>
-								<form:input path="description" class="form-control"
-									required="required" />
-							</div>
-
-							<div class="form-group"></div>
-							<c:choose>
-								<c:when test="${empty competency.name}">
+									<div class="form-group"></div>
 									<button type="submit" class="btn btn-primary">Adicionar</button>
-								</c:when>
-								<c:otherwise>
+								</form:form>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="col">
+								<h3 class="sub-header">Editar Competência</h3>
+
+								<!--  Form -->
+								<form:form action="${addAction}" commandName="competency"
+									class="form">
+									<div class="form-group">
+										<label for="id">Número Identificador</label>
+										<form:input path="id" readonly="true" class="form-control" />
+									</div>
+									<div class="form-group">
+										<label for="name">Nome</label>
+										<form:input path="name" class="form-control"
+											required="required" />
+									</div>
+									<div class="form-group">
+										<label for="description">Descrição</label>
+										<form:input path="description" class="form-control"
+											required="required" />
+									</div>
+
+									<div class="form-group"></div>
 									<button type="submit" class="btn btn-primary">Editar</button>
-								</c:otherwise>
-							</c:choose>
-						</form:form>
-					</div>
+								</form:form>
+							</div>
+						</c:otherwise>
+					</c:choose>
 
 					<div class="col">
 						<c:if test="${!empty competencies && empty competency.name}">
 							<h3 class="sub-header">Lista de Categorias de Competência</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="competencies-table" class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -143,6 +172,45 @@
 		</div>
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
-
+	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+	<script
+		src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#competencies-table')
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhuma competência encontrada",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ competências por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhuma competência encontrada",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : [ 4, 5 ]
+												} ]
+											});
+						});
+	</script>
 </body>
 </html>

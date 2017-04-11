@@ -8,6 +8,8 @@
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
 <%@include file="/resources/jsp/general-tinymce.jsp"%>
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>">
 <title>Perfil: ${profile.name}</title>
 </head>
 
@@ -20,15 +22,11 @@
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
 				<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
-				<c:forEach items="${profiles}" var="otherProfile">
+				<c:forEach items="${profiles}" begin="0" end="19" var="otherProfile">
 					<c:choose>
 						<c:when test="${otherProfile.id == profile.id}">
 							<li class="active"><a href="#">${profile.name}<span
-									class="sr-only">(atual)</span></a>
-								<ul>
-									<li><a href="javascript:;" data-toggle="collapse"
-										data-target="#edit">Editar</a></li>
-								</ul></li>
+									class="sr-only">(atual)</span></a></li>
 						</c:when>
 						<c:otherwise>
 							<li><a
@@ -49,9 +47,10 @@
 							<strong>Descrição:</strong> ${profile.description}
 						</p>
 						<ol class="breadcrumb">
-							<li>Início</li>
-							<li>Perfis</li>
-							<li class="active">${profile.name}</li>
+							<li><a href="<c:url value="/"/>">Início</a></li>
+							<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
+							<li class="active">${profile.name}<a href="javascript:;"
+								data-toggle="collapse" data-target="#edit"> (Editar Perfil)</a></li>
 						</ol>
 					</div>
 				</div>
@@ -182,7 +181,7 @@
 								<h3 class="sub-header">Lista de Colaboradores com este
 									Perfil</h3>
 								<div class="table-responsive">
-									<table class="table table-striped">
+									<table id="self-collaborators-table" class="table table-bordered table-hover table-striped display">
 										<thead>
 											<tr>
 												<th>#</th>
@@ -221,7 +220,7 @@
 						<div class="col">
 							<h3 class="sub-header">Lista de Competências do Perfil</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="self-competencies-table" class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -256,7 +255,7 @@
 							<h3 class="sub-header">Lista de Competências do Contrato não
 								associados à este Perfil</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="other-competencies-table" class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -289,7 +288,7 @@
 							<h3 class="sub-header">Lista de Colaboradores não associados
 								à este Perfil</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="other-collaborators-table" class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -328,5 +327,138 @@
 		</div>
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
+	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+	<script
+		src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#self-collaborators-table')
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhum colaborador encontrado",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ colaboradores",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ colaboradores)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ colaboradores por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhum colaborador encontrado",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : [ 3, 4 ]
+												} ]
+											});
+							$('#other-collaborators-table')
+							.DataTable(
+									{
+										language : {
+											"sEmptyTable" : "Nenhum colaborador encontrado",
+											"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ colaboradores",
+											"sInfoEmpty" : "",
+											"sInfoFiltered" : "(Filtrados de _MAX_ colaboradores)",
+											"sInfoPostFix" : "",
+											"sInfoThousands" : ".",
+											"sLengthMenu" : "_MENU_ colaboradores por página",
+											"sLoadingRecords" : "Carregando...",
+											"sProcessing" : "Processando...",
+											"sZeroRecords" : "Nenhum colaborador encontrado",
+											"sSearch" : "Pesquisar ",
+											"oPaginate" : {
+												"sNext" : "Próximo",
+												"sPrevious" : "Anterior",
+												"sFirst" : "Primeiro",
+												"sLast" : "Último"
+											},
+											"oAria" : {
+												"sSortAscending" : ": Ordenar colunas de forma crescente",
+												"sSortDescending" : ": Ordenar colunas de forma decrescente"
+											}
+										},
+										columnDefs : [ {
+											"orderable" : false,
+											"targets" : [ 3, 4 ]
+										} ]
+									});
+							selfCompetenciesTable = $('#self-competencies-table')
+							.DataTable(
+									{
+										language : {
+											"sEmptyTable" : "Nenhuma competência encontrada",
+											"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
+											"sInfoEmpty" : "",
+											"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
+											"sInfoPostFix" : "",
+											"sInfoThousands" : ".",
+											"sLengthMenu" : "_MENU_ competências por página",
+											"sLoadingRecords" : "Carregando...",
+											"sProcessing" : "Processando...",
+											"sZeroRecords" : "Nenhuma competência encontrada",
+											"sSearch" : "Pesquisar ",
+											"oPaginate" : {
+												"sNext" : "Próximo",
+												"sPrevious" : "Anterior",
+												"sFirst" : "Primeiro",
+												"sLast" : "Último"
+											},
+											"oAria" : {
+												"sSortAscending" : ": Ordenar colunas de forma crescente",
+												"sSortDescending" : ": Ordenar colunas de forma decrescente"
+											}
+										},
+										columnDefs : [ {
+											"orderable" : false,
+											"targets" : 3
+										} ]
+									});
+							$('#other-competencies-table')
+							.DataTable(
+									{
+										language : {
+											"sEmptyTable" : "Nenhuma competência encontrada",
+											"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
+											"sInfoEmpty" : "",
+											"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
+											"sInfoPostFix" : "",
+											"sInfoThousands" : ".",
+											"sLengthMenu" : "_MENU_ competências por página",
+											"sLoadingRecords" : "Carregando...",
+											"sProcessing" : "Processando...",
+											"sZeroRecords" : "Nenhuma competência encontrada",
+											"sSearch" : "Pesquisar ",
+											"oPaginate" : {
+												"sNext" : "Próximo",
+												"sPrevious" : "Anterior",
+												"sFirst" : "Primeiro",
+												"sLast" : "Último"
+											},
+											"oAria" : {
+												"sSortAscending" : ": Ordenar colunas de forma crescente",
+												"sSortDescending" : ": Ordenar colunas de forma decrescente"
+											}
+										},
+										columnDefs : [ {
+											"orderable" : false,
+											"targets" : 3
+										} ]
+									});
+						});
+	</script>
 </body>
 </html>

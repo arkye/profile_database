@@ -6,6 +6,8 @@
 <html lang="en">
 <head>
 <%@include file="/resources/jsp/general-head.jsp"%>
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>">
 <title>Contrato: ${contract.name}</title>
 </head>
 
@@ -17,7 +19,8 @@
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
 				<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-				<c:forEach items="${contracts}" var="otherContract">
+				<c:forEach items="${contracts}" begin="0" end="19"
+					var="otherContract">
 					<c:choose>
 						<c:when test="${otherContract.id == contract.id}">
 							<li class="active"><a href="#">${contract.name}<span
@@ -39,15 +42,17 @@
 					<div class="col-lg-12">
 						<h1 class="page-header">Contrato: ${contract.name}</h1>
 						<ol class="breadcrumb">
-							<li>Início</li>
-							<li>Contratos</li>
-							<li class="active">${contract.name}</li>
+							<li><a href="<c:url value="/"/>">Início</a></li>
+							<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
+							<li class="active">${contract.name}<a href="javascript:;"
+								data-toggle="collapse" data-target="#edit"> (Editar
+									Contrato)</a></li>
 						</ol>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col">
+					<div id="edit" class="col collapse">
 						<h3 class="sub-header">Editar Contrato</h3>
 
 						<c:url var="editContractAction" value="/contracts/edit"></c:url>
@@ -78,6 +83,26 @@
 							</div>
 						</form:form>
 
+						<h3 class="sub-header">Adicionar Documento ao Contrato</h3>
+
+						<c:url var="addDocumentAction"
+							value="/contracts/edit/${contract.id}/add/document"></c:url>
+
+						<!--  Form -->
+						<form method="POST" action="${addDocumentAction}"
+							enctype="multipart/form-data" class="form">
+							<div class="form-group">
+								<label for="name">Nome</label> <input type="text" name="name"
+									class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="file">Arquivo</label> <input type="file" name="file"
+									class="form-control" required />
+							</div>
+							<div class="form-group">
+								<input type="submit" class="btn btn-primary" value="Adicionar">
+							</div>
+						</form>
 					</div>
 
 					<div class="col">
@@ -85,7 +110,8 @@
 						<c:if test="${!empty contract.documents}">
 							<h3 class="sub-header">Lista de Documentos do Contrato</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="documents-table"
+									class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -120,35 +146,11 @@
 
 					<div class="col">
 
-						<h3 class="sub-header">Adicionar Documento ao Contrato</h3>
-
-						<c:url var="addDocumentAction"
-							value="/contracts/edit/${contract.id}/add/document"></c:url>
-
-						<!--  Form -->
-						<form method="POST" action="${addDocumentAction}"
-							enctype="multipart/form-data" class="form">
-							<div class="form-group">
-								<label for="name">Nome</label> <input type="text" name="name"
-									class="form-control" required />
-							</div>
-							<div class="form-group">
-								<label for="file">Arquivo</label> <input type="file" name="file"
-									class="form-control" required />
-							</div>
-							<div class="form-group">
-								<input type="submit" class="btn btn-primary" value="Adicionar">
-							</div>
-						</form>
-
-					</div>
-
-					<div class="col">
-
 						<c:if test="${!empty contract.competencies}">
 							<h3 class="sub-header">Lista de Competências do Contrato</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="self-competencies-table"
+									class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -180,7 +182,8 @@
 						<c:if test="${!empty competencies}">
 							<h3 class="sub-header">Lista de Competências sem Contrato</h3>
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table id="other-competencies-table"
+									class="table table-bordered table-hover table-striped display">
 									<thead>
 										<tr>
 											<th>#</th>
@@ -210,6 +213,107 @@
 		</div>
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
-
+	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+	<script
+		src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#documents-table')
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhum documento encontrado",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ documentos",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ documentos)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ documentos por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhum documento encontrado",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : [ 2, 3 ]
+												} ]
+											});
+							selfCompetenciesTable = $('#self-competencies-table')
+							.DataTable(
+									{
+										language : {
+											"sEmptyTable" : "Nenhuma competência encontrada",
+											"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
+											"sInfoEmpty" : "",
+											"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
+											"sInfoPostFix" : "",
+											"sInfoThousands" : ".",
+											"sLengthMenu" : "_MENU_ competências por página",
+											"sLoadingRecords" : "Carregando...",
+											"sProcessing" : "Processando...",
+											"sZeroRecords" : "Nenhuma competência encontrada",
+											"sSearch" : "Pesquisar ",
+											"oPaginate" : {
+												"sNext" : "Próximo",
+												"sPrevious" : "Anterior",
+												"sFirst" : "Primeiro",
+												"sLast" : "Último"
+											},
+											"oAria" : {
+												"sSortAscending" : ": Ordenar colunas de forma crescente",
+												"sSortDescending" : ": Ordenar colunas de forma decrescente"
+											}
+										},
+										columnDefs : [ {
+											"orderable" : false,
+											"targets" : 3
+										} ]
+									});
+							$('#other-competencies-table')
+							.DataTable(
+									{
+										language : {
+											"sEmptyTable" : "Nenhuma competência encontrada",
+											"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
+											"sInfoEmpty" : "",
+											"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
+											"sInfoPostFix" : "",
+											"sInfoThousands" : ".",
+											"sLengthMenu" : "_MENU_ competências por página",
+											"sLoadingRecords" : "Carregando...",
+											"sProcessing" : "Processando...",
+											"sZeroRecords" : "Nenhuma competência encontrada",
+											"sSearch" : "Pesquisar ",
+											"oPaginate" : {
+												"sNext" : "Próximo",
+												"sPrevious" : "Anterior",
+												"sFirst" : "Primeiro",
+												"sLast" : "Último"
+											},
+											"oAria" : {
+												"sSortAscending" : ": Ordenar colunas de forma crescente",
+												"sSortDescending" : ": Ordenar colunas de forma decrescente"
+											}
+										},
+										columnDefs : [ {
+											"orderable" : false,
+											"targets" : 3
+										} ]
+									});
+						});
+	</script>
 </body>
 </html>
