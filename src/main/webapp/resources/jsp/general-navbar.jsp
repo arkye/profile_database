@@ -1,6 +1,6 @@
-<!-- Navbar -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
 	style="margin-bottom: 0">
+
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse"
 			data-target=".navbar-ex1-collapse">
@@ -10,6 +10,7 @@
 		<a class="navbar-brand" href="<c:url value="/"/>"><img
 			src="<c:url value="/resources/img/logo_white.png"/>" height="25"></a>
 	</div>
+
 	<ul class="nav navbar-right top-nav">
 		<li><a href="<c:url value="/"/>">Início</a></li>
 		<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
