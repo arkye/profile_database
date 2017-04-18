@@ -14,7 +14,7 @@ public interface DocumentService {
 
 	public Document updateDocument(int id, String name, CommonsMultipartFile file);
 	
-	public void serveDocument(int id, HttpServletResponse response);
+	public void serveDocument(int id, HttpServletResponse response) throws Exception;
 
 	public List<Document> listDocuments();
 

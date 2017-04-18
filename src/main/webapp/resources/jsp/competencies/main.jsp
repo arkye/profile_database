@@ -3,13 +3,13 @@
 <div id="page-wrapper">
 	<div class="container-fluid">
 		<div class="row col">
-			<%@include file="/resources/jsp/collaborators/main-header.jsp"%>
+			<%@include file="/resources/jsp/competencies/main-header.jsp"%>
 		</div>
 		<div class="row col collapse" id="new">
-			<%@include file="/resources/jsp/collaborators/main-form.jsp" %>
+			<%@include file="/resources/jsp/competencies/main-form.jsp" %>
 		</div>
 		<div class="row col">
-			<%@include file="/resources/jsp/collaborators/main-list.jsp" %>
+			<%@include file="/resources/jsp/competencies/main-list.jsp" %>
 		</div>
 	</div>
 </div>

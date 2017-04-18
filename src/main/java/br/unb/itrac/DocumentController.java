@@ -35,7 +35,11 @@ public class DocumentController {
 
 	@RequestMapping(value = "/documents/show/{id}", produces = "application/pdf", method = RequestMethod.GET)
 	public String showDocument(@PathVariable("id") int id, HttpServletResponse response) {
-		this.documentService.serveDocument(id, response);
+		try {
+			this.documentService.serveDocument(id, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

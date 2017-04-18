@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="col">
-	<c:if test="${!empty collaborators && empty collaborator.firstName}">
+	<c:if test="${!empty collaborators}">
 		<h3 class="sub-header"><i class="fa fa-fw fa-list"></i> Lista de Colaboradores Registrados</h3>
 		<div class="table-responsive">
 			<table id="collaborators-table"

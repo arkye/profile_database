@@ -42,12 +42,13 @@ public class CollaboratorController {
 	}
 
 	@RequestMapping(value = "/collaborators/{id}/resume", produces = "application/pdf", method = RequestMethod.GET)
-	public String showDocument(@PathVariable("id") int id, HttpServletResponse response) {
+	public String showDocument(@PathVariable("id") int id, HttpServletResponse response, Model model) {
 		try {
 			this.documentService.serveDocument(this.collaboratorService.getCollaboratorById(id).getResume().getId(),
 					response);
 		} catch (Exception e) {
-			e.printStackTrace();
+			model.addAttribute("exception", e);
+			return "document_not_found";
 		}
 		return null;
 	}
@@ -55,26 +56,31 @@ public class CollaboratorController {
 	@RequestMapping(value = "/collaborators/add", method = RequestMethod.POST)
 	public String addCollaborator(@RequestParam("id") int id, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName, @RequestParam("file") CommonsMultipartFile file) {
-		if (id == 0) {
-			Collaborator collaborator = new Collaborator();
-			collaborator.setId(id);
+		Collaborator collaborator = new Collaborator();
+		collaborator.setId(id);
+		collaborator.setFirstName(firstName);
+		collaborator.setLastName(lastName);
+		collaborator
+				.setResume(this.documentService.addDocument("Currículo " + firstName + " " + lastName.charAt(0), file));
+		this.collaboratorService.addCollaborator(collaborator);
+
+		return "redirect:/collaborators";
+
+	}
+
+	@RequestMapping(value = "/collaborators/edit/save", method = RequestMethod.POST)
+	public String saveCollaborator(@RequestParam("id") int id, @RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName, @RequestParam("file") CommonsMultipartFile file) {
+		Collaborator collaborator;
+		try {
+			collaborator = this.collaboratorService.getCollaboratorById(id);
 			collaborator.setFirstName(firstName);
 			collaborator.setLastName(lastName);
-			collaborator.setResume(
-					this.documentService.addDocument("Currículo " + firstName + " " + lastName.charAt(0), file));
-			this.collaboratorService.addCollaborator(collaborator);
-		} else {
-			Collaborator collaborator;
-			try {
-				collaborator = this.collaboratorService.getCollaboratorById(id);
-				collaborator.setFirstName(firstName);
-				collaborator.setLastName(lastName);
-				collaborator.setResume(this.documentService.updateDocument(collaborator.getResume().getId(),
-						collaborator.getResume().getName(), file));
-				this.collaboratorService.updateCollaborator(collaborator);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			collaborator.setResume(this.documentService.updateDocument(collaborator.getResume().getId(),
+					collaborator.getResume().getName(), file));
+			this.collaboratorService.updateCollaborator(collaborator);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return "redirect:/collaborators";
 	}
@@ -93,6 +99,6 @@ public class CollaboratorController {
 			e.printStackTrace();
 		}
 		model.addAttribute("collaborators", this.collaboratorService.listCollaborators());
-		return "collaborators";
+		return "/collaborator";
 	}
 }

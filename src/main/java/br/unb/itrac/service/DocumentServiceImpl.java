@@ -1,6 +1,5 @@
 package br.unb.itrac.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -64,14 +63,15 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	@Transactional
-	public void serveDocument(int id, HttpServletResponse response) {
+	public void serveDocument(int id, HttpServletResponse response) throws Exception {
 		Document document = getDocumentById(id);
 		byte[] file = document.getFile();
-		response.setContentLength(file.length);
-		try {
+		if(file.length > 0) {
+			response.setContentLength(file.length);
 			response.getOutputStream().write(file);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} else {
+			throw new Exception("O documento não existe.");
 		}
+		
 	}
 }
