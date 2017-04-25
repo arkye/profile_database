@@ -1,22 +1,22 @@
 $(document).ready(function() {$('#competencies-table').DataTable(
 {
 language : {
-"sEmptyTable" : "Nenhuma competÃªncia encontrada",
-"sInfo" : "Mostrando de _START_ atÃ© _END_ de _TOTAL_ competÃªncias",
+"sEmptyTable" : "Nenhuma competência encontrada",
+"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
 "sInfoEmpty" : "",
-"sInfoFiltered" : "(Filtrados de _MAX_ competÃªncias)",
+"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
 "sInfoPostFix" : "",
 "sInfoThousands" : ".",
-"sLengthMenu" : "_MENU_ competÃªncias por pÃ¡gina",
+"sLengthMenu" : "_MENU_ competências por página",
 "sLoadingRecords" : "Carregando...",
 "sProcessing" : "Processando...",
-"sZeroRecords" : "Nenhuma competÃªncia encontrada",
+"sZeroRecords" : "Nenhuma competência encontrada",
 "sSearch" : "Pesquisar ",
 "oPaginate" : {
-"sNext" : "PrÃ³ximo",
+"sNext" : "Próximo",
 "sPrevious" : "Anterior",
 "sFirst" : "Primeiro",
-"sLast" : "Ãšltimo"
+"sLast" : "Último"
 },
 "oAria" : {
 "sSortAscending" : ": Ordenar colunas de forma crescente",

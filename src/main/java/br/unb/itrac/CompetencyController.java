@@ -48,16 +48,18 @@ public class CompetencyController {
 	public String listCompetencies(Model model) {
 		model.addAttribute("competency", new Competency());
 		model.addAttribute("competencies", this.competencyService.listCompetencies());
-		return "competencies";
+		return "/competencies";
 	}
 
 	@RequestMapping(value = "/competencies/add", method = RequestMethod.POST)
 	public String addCompetency(@ModelAttribute("competency") Competency competency) {
-		if (competency.getId() == 0) {
-			this.competencyService.addCompetency(competency);
-		} else {
-			this.competencyService.updateCompetency(competency);
-		}
+		this.competencyService.addCompetency(competency);
+		return "redirect:/competencies";
+	}
+
+	@RequestMapping(value = "/competencies/edit/save", method = RequestMethod.POST)
+	public String saveCompetency(@ModelAttribute("competency") Competency competency) {
+		this.competencyService.updateCompetency(competency);
 		return "redirect:/competencies";
 	}
 
@@ -105,6 +107,6 @@ public class CompetencyController {
 	public String editCompetency(@PathVariable("id") int id, Model model) {
 		model.addAttribute("competency", competencyService.getCompetencyById(id));
 		model.addAttribute("competencies", this.competencyService.listCompetencies());
-		return "competencies";
+		return "/competency";
 	}
 }

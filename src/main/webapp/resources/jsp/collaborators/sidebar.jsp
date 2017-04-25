@@ -8,19 +8,10 @@
 						Colaboradores</a></li>
 				<c:forEach items="${collaborators}" begin="0" end="19"
 					var="otherCollaborator">
-					<c:choose>
-						<c:when test="${otherCollaborator.id == collaborator.id}">
-							<li class="active"><a href="#"><i
-									class="fa fa-fw fa-user"></i> ${collaborator.firstName}
-									${collaborator.lastName}<span class="sr-only">(atual)</span> </a>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="<c:url value="/collaborators/edit/${otherCollaborator.id}"/>"><i
-									class="fa fa-fw fa-user"></i> ${otherCollaborator.firstName}
-									${otherCollaborator.lastName}</a></li>
-						</c:otherwise>
-					</c:choose>
+					<li><a
+						href="<c:url value="/collaborators/edit/${otherCollaborator.id}"/>"><i
+							class="fa fa-fw fa-user"></i> ${otherCollaborator.firstName}
+							${otherCollaborator.lastName}</a></li>
 				</c:forEach>
 			</c:when>
 			<c:otherwise>

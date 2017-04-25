@@ -1,0 +1,1 @@
+<%@include file="/resources/jsp/general-scripts.jsp"%>

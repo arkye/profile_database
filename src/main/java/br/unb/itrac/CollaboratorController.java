@@ -65,7 +65,6 @@ public class CollaboratorController {
 		this.collaboratorService.addCollaborator(collaborator);
 
 		return "redirect:/collaborators";
-
 	}
 
 	@RequestMapping(value = "/collaborators/edit/save", method = RequestMethod.POST)
