@@ -33,6 +33,9 @@
 				class="btn btn-lg btn-primary btn-block" type="submit"
 				value="Entrar">
 		</form>
+		
+		<img class="logo-signin center-block"
+			src="<c:url value="/resources/img/mctic-60.png"/>">
 	</div>
 
 	<%@include file="/resources/jsp/general-scripts.jsp"%>

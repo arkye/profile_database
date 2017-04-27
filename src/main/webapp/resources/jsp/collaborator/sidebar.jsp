@@ -1,10 +1,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="collapse navbar-collapse">
 	<ul class="nav navbar-nav side-nav">
 		<li><a href="<c:url value="/collaborators"/>"><i
 				class="fa fa-fw fa-users"></i> Colaboradores</a></li>
-		<c:forEach items="${collaborators}" begin="0" end="19"
+		<c:if test="${collaborator.id > 4}">
+			<center>
+				<a>...</a>
+			</center>
+		</c:if>
+		<c:choose>
+			<c:when test="${collaborator.id > 4}">
+				<c:set var="start" value="${collaborator.id - 4}"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="start" value="0"/>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${collaborator.id > 4}">
+				<c:set var="finish" value="${collaborator.id + 2}"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="finish" value="8"/>
+			</c:otherwise>
+		</c:choose>
+		<c:forEach items="${collaborators}" begin="${start}" end="${finish}"
 			var="otherCollaborator">
 			<c:choose>
 				<c:when test="${otherCollaborator.id == collaborator.id}">
@@ -20,5 +42,11 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
+		<c:if
+			test="${fn:length(collaborators) > 8 && fn:length(collaborators) > collaborator.id + 2}">
+			<center>
+				<a>...</a>
+			</center>
+		</c:if>
 	</ul>
 </div>

@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:if test="${!empty competencies && empty competency.name}">
-	<h3 class="sub-header">Lista de Categorias de Competência</h3>
+	<h3 class="sub-header"><i class="fa fa-fw fa-list"></i> Lista de Categorias de Competência</h3>
 	<div class="table-responsive">
 		<table id="competencies-table"
 			class="table table-bordered table-hover table-striped display">

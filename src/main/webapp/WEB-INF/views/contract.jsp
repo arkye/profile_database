@@ -18,17 +18,19 @@
 		<!-- Sidebar -->
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
-				<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
+				<li><a href="<c:url value="/contracts"/>"><i
+						class="fa fa-files-o"></i> Contratos</a></li>
 				<c:forEach items="${contracts}" begin="0" end="19"
 					var="otherContract">
 					<c:choose>
 						<c:when test="${otherContract.id == contract.id}">
-							<li class="active"><a href="#">${contract.name}<span
-									class="sr-only">(atual)</span></a>
+							<li class="active"><a href="#"><i class="fa fa-file-o"></i>
+									${contract.name}<span class="sr-only">(atual)</span></a>
 						</c:when>
 						<c:otherwise>
 							<li><a
-								href="<c:url value="/contracts/edit/${otherContract.id}"/>">${otherContract.name}</a></li>
+								href="<c:url value="/contracts/edit/${otherContract.id}"/>"><i
+									class="fa fa-file-o"></i> ${otherContract.name}</a></li>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
@@ -40,20 +42,27 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Contrato: ${contract.name}</h1>
+						<h1 class="page-header">
+							<i class="fa fa-file-o"></i> Contrato
+						</h1>
 						<ol class="breadcrumb">
-							<li><a href="<c:url value="/"/>">Início</a></li>
-							<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-							<li class="active">${contract.name}<a href="javascript:;"
-								data-toggle="collapse" data-target="#edit"> (Editar
-									Contrato)</a></li>
+							<li><a href="<c:url value="/"/>"><i class="fa fa-home"></i>
+									Início</a></li>
+							<li><a href="<c:url value="/contracts"/>"><i
+									class="fa fa-files-o"></i> Contratos</a></li>
+							<li class="active"><a href="javascript:;"
+								data-toggle="collapse" data-target="#edit"><i
+									class="fa fa-file-o"></i> ${contract.name} (Editar Contrato) <i
+									class="fa fa-pencil-square"></i> </a></li>
 						</ol>
 					</div>
 				</div>
 
 				<div class="row">
-					<div id="edit" class="col collapse">
-						<h3 class="sub-header">Editar Contrato</h3>
+					<div id="edit" class="col-lg-12 collapse">
+						<h3 class="sub-header">
+							<i class="fa fa-pencil-square"></i> Editar Contrato
+						</h3>
 
 						<c:url var="editContractAction" value="/contracts/edit"></c:url>
 
@@ -83,7 +92,9 @@
 							</div>
 						</form:form>
 
-						<h3 class="sub-header">Adicionar Documento ao Contrato</h3>
+						<h3 class="sub-header">
+							<i class="fa fa-plus-circle"></i> Adicionar Documento ao Contrato
+						</h3>
 
 						<c:url var="addDocumentAction"
 							value="/contracts/edit/${contract.id}/add/document"></c:url>
@@ -105,10 +116,13 @@
 						</form>
 					</div>
 
-					<div class="col">
+					<div class="col-lg-12">
 
 						<c:if test="${!empty contract.documents}">
-							<h3 class="sub-header">Lista de Documentos do Contrato</h3>
+							<h3 class="sub-header">
+								<i class="fa fa-list"></i> <i class="fa fa-file-text"></i> Lista
+								de Documentos do Contrato
+							</h3>
 							<div class="table-responsive">
 								<table id="documents-table"
 									class="table table-bordered table-hover table-striped display">
@@ -144,10 +158,13 @@
 
 					</div>
 
-					<div class="col">
+					<div class="col-lg-12">
 
 						<c:if test="${!empty contract.competencies}">
-							<h3 class="sub-header">Lista de Competências do Contrato</h3>
+							<h3 class="sub-header">
+								<i class="fa fa-list"></i> <i class="fa fa-graduation-cap"></i>
+								Lista de Competências do Contrato
+							</h3>
 							<div class="table-responsive">
 								<table id="self-competencies-table"
 									class="table table-bordered table-hover table-striped display">
@@ -177,10 +194,13 @@
 						</c:if>
 
 					</div>
-					<div class="col">
+					<div class="col-lg-12">
 
 						<c:if test="${!empty competencies}">
-							<h3 class="sub-header">Lista de Competências sem Contrato</h3>
+							<h3 class="sub-header">
+								<i class="fa fa-list-alt"></i> <i class="fa fa-graduation-cap"></i>
+								Lista de Competências sem Contrato
+							</h3>
 							<div class="table-responsive">
 								<table id="other-competencies-table"
 									class="table table-bordered table-hover table-striped display">
@@ -211,6 +231,8 @@
 				</div>
 			</div>
 		</div>
+		<img class="fix-right"
+			src="<c:url value="/resources/img/mctic-40.png"/>">
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
 	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
@@ -251,68 +273,69 @@
 													"targets" : [ 2, 3 ]
 												} ]
 											});
-							selfCompetenciesTable = $('#self-competencies-table')
-							.DataTable(
-									{
-										language : {
-											"sEmptyTable" : "Nenhuma competência encontrada",
-											"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
-											"sInfoEmpty" : "",
-											"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
-											"sInfoPostFix" : "",
-											"sInfoThousands" : ".",
-											"sLengthMenu" : "_MENU_ competências por página",
-											"sLoadingRecords" : "Carregando...",
-											"sProcessing" : "Processando...",
-											"sZeroRecords" : "Nenhuma competência encontrada",
-											"sSearch" : "Pesquisar ",
-											"oPaginate" : {
-												"sNext" : "Próximo",
-												"sPrevious" : "Anterior",
-												"sFirst" : "Primeiro",
-												"sLast" : "Último"
-											},
-											"oAria" : {
-												"sSortAscending" : ": Ordenar colunas de forma crescente",
-												"sSortDescending" : ": Ordenar colunas de forma decrescente"
-											}
-										},
-										columnDefs : [ {
-											"orderable" : false,
-											"targets" : 3
-										} ]
-									});
+							selfCompetenciesTable = $(
+									'#self-competencies-table')
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhuma competência encontrada",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ competências por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhuma competência encontrada",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : 3
+												} ]
+											});
 							$('#other-competencies-table')
-							.DataTable(
-									{
-										language : {
-											"sEmptyTable" : "Nenhuma competência encontrada",
-											"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
-											"sInfoEmpty" : "",
-											"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
-											"sInfoPostFix" : "",
-											"sInfoThousands" : ".",
-											"sLengthMenu" : "_MENU_ competências por página",
-											"sLoadingRecords" : "Carregando...",
-											"sProcessing" : "Processando...",
-											"sZeroRecords" : "Nenhuma competência encontrada",
-											"sSearch" : "Pesquisar ",
-											"oPaginate" : {
-												"sNext" : "Próximo",
-												"sPrevious" : "Anterior",
-												"sFirst" : "Primeiro",
-												"sLast" : "Último"
-											},
-											"oAria" : {
-												"sSortAscending" : ": Ordenar colunas de forma crescente",
-												"sSortDescending" : ": Ordenar colunas de forma decrescente"
-											}
-										},
-										columnDefs : [ {
-											"orderable" : false,
-											"targets" : 3
-										} ]
-									});
+									.DataTable(
+											{
+												language : {
+													"sEmptyTable" : "Nenhuma competência encontrada",
+													"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ competências",
+													"sInfoEmpty" : "",
+													"sInfoFiltered" : "(Filtrados de _MAX_ competências)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ".",
+													"sLengthMenu" : "_MENU_ competências por página",
+													"sLoadingRecords" : "Carregando...",
+													"sProcessing" : "Processando...",
+													"sZeroRecords" : "Nenhuma competência encontrada",
+													"sSearch" : "Pesquisar ",
+													"oPaginate" : {
+														"sNext" : "Próximo",
+														"sPrevious" : "Anterior",
+														"sFirst" : "Primeiro",
+														"sLast" : "Último"
+													},
+													"oAria" : {
+														"sSortAscending" : ": Ordenar colunas de forma crescente",
+														"sSortDescending" : ": Ordenar colunas de forma decrescente"
+													}
+												},
+												columnDefs : [ {
+													"orderable" : false,
+													"targets" : 3
+												} ]
+											});
 						});
 	</script>
 </body>

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page session="false"%>
 <html lang="en">
 <head>
@@ -20,13 +21,21 @@
 		<!-- Sidebar -->
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
-				<li class="active"><a href="#">Perfis</a></li>
+				<li class="active"><a href="#"><i
+						class="fa fa-address-book"></i> Perfis</a></li>
 				<c:choose>
 					<c:when test="${!empty profiles}">
-						<c:forEach items="${profiles}" begin="0" end="19" var="otherProfile">
+						<c:forEach items="${profiles}" begin="0" end="9"
+							var="otherProfile">
 							<li><a
-								href="<c:url value="/profiles/edit/${otherProfile.id}"/>">${otherProfile.name}</a></li>
+								href="<c:url value="/profiles/edit/${otherProfile.id}"/>"><i
+									class="fa fa-address-card"></i> ${otherProfile.name}</a></li>
 						</c:forEach>
+						<c:if test="${fn:length(profiles) > 10}">
+							<center>
+								<a>...</a>
+							</center>
+						</c:if>
 					</c:when>
 					<c:otherwise>
 						<li><a>Sem perfis definidos</a></li>
@@ -40,12 +49,16 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Perfis</h1>
+						<h1 class="page-header">
+							<i class="fa fa-address-book"></i> Perfis
+						</h1>
 						<ol class="breadcrumb">
-							<li><a href="<c:url value="/"/>">Início</a></li>
-							<li class="active">Perfis</li>
+							<li><a href="<c:url value="/"/>"><i class="fa fa-home"></i>
+									Início</a></li>
+							<li class="active"><i class="fa fa-address-book"></i> Perfis</li>
 							<li><a href="javascript:;" data-toggle="collapse"
-										data-target="#new">(Registrar Novo Perfil)</a></li>
+								data-target="#new"><i class="fa fa-plus-circle"></i>
+									(Registrar Novo Perfil)</a></li>
 						</ol>
 					</div>
 				</div>
@@ -58,7 +71,9 @@
 							<c:url var="addAction" value="/profiles/add"></c:url>
 
 							<div id="new" class="col collapse">
-								<h3 class="sub-header">Registrar Novo Perfil</h3>
+								<h3 class="sub-header">
+									<i class="fa fa-plus-circle"></i> Registrar Novo Perfil
+								</h3>
 
 								<!--  Form -->
 								<form:form action="${addAction}" commandName="profile"
@@ -91,11 +106,14 @@
 								</form:form>
 
 							</div>
-							<div class="col">
+							<div class="col-lg-12">
 								<c:if test="${!empty profiles}">
-									<h3 class="sub-header">Lista de Perfis Registrados</h3>
+									<h3 class="sub-header">
+										<i class="fa fa-list"></i> Lista de Perfis Registrados
+									</h3>
 									<div class="table-responsive">
-										<table id="profiles-table" class="table table-bordered table-hover table-striped display">
+										<table id="profiles-table"
+											class="table table-bordered table-hover table-striped display">
 											<thead>
 												<tr>
 													<th>#</th>
@@ -138,9 +156,11 @@
 				</div>
 			</div>
 		</div>
+		<img class="fix-right"
+			src="<c:url value="/resources/img/mctic-40.png"/>">
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
-		<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+	<script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
 	<script
 		src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
 	<script type="text/javascript">
@@ -180,5 +200,5 @@
 											});
 						});
 	</script>
-</body>
+	< /body>
 </html>

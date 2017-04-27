@@ -16,10 +16,16 @@
 		<!-- Sidebar -->
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
-				<li><a href="<c:url value="/profiles"/>">Perfis</a></li>
-				<li><a href="<c:url value="/contracts"/>">Contratos</a></li>
-				<li><a href="<c:url value="/competencies"/>">Competências</a></li>
-				<li><a href="<c:url value="/collaborators"/>">Colaboradores</a></li>
+				<li class="active"><a href="#"><i class="fa fa-home"></i>
+						Início</a></li>
+				<li><a href="<c:url value="/profiles"/>"><i
+						class="fa fa-address-book"></i> Perfis</a></li>
+				<li><a href="<c:url value="/contracts"/>"><i
+						class="fa fa-files-o"></i> Contratos</a></li>
+				<li><a href="<c:url value="/competencies"/>"><i
+						class="fa fa-university"></i> Competências</a></li>
+				<li><a href="<c:url value="/collaborators"/>"><i
+						class="fa fa-users"></i> Colaboradores</a></li>
 			</ul>
 		</div>
 
@@ -82,7 +88,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="row">
 					<div class="col-lg-4 col-md-6">
 						<div class="panel panel-yellow">
@@ -132,6 +138,8 @@
 				</div>
 			</div>
 		</div>
+		<img class="fix-right"
+			src="<c:url value="/resources/img/mctic-40.png"/>">
 	</div>
 	<%@include file="/resources/jsp/general-scripts.jsp"%>
 

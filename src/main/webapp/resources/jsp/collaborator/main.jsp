@@ -3,10 +3,10 @@
 <c:if test="${!empty collaborator.firstName}">
 	<div id="page-wrapper">
 		<div class="container-fluid">
-			<div class="row col">
+			<div class="row col-lg-12">
 				<%@include file="/resources/jsp/collaborator/main-header.jsp"%>
 			</div>
-			<div class="row col">
+			<div class="row col-lg-12">
 				<%@include file="/resources/jsp/collaborator/main-form.jsp"%>
 			</div>
 		</div>
