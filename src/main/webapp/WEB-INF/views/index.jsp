@@ -47,7 +47,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="material-icons" style="font-size: 60px">account_box</i>
+										<div class="extra-huge"><i class="fa fa-address-book"></i></div>
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">${quantityOfProfiles}</div>
@@ -58,7 +58,7 @@
 							<a href="<c:url value="/profiles"/>">
 								<div class="panel-footer">
 									<span class="pull-left">Ver Perfis</span> <span
-										class="pull-right"><i class="material-icons">chevron_right</i></span>
+										class="pull-right"><i class="fa fa-chevron-right"></i></span>
 									<div class="clearfix"></div>
 								</div>
 							</a>
@@ -70,7 +70,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="material-icons" style="font-size: 60px">assignment</i>
+										<div class="extra-huge"><i class="fa fa-files-o"></i></div>
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">${quantityOfContracts}</div>
@@ -81,7 +81,7 @@
 							<a href="<c:url value="/contracts"/>">
 								<div class="panel-footer">
 									<span class="pull-left">Ver Contratos</span> <span
-										class="pull-right"><i class="material-icons">chevron_right</i></span>
+										class="pull-right"><i class="fa fa-chevron-right"></i></span>
 									<div class="clearfix"></div>
 								</div>
 							</a>
@@ -95,7 +95,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="material-icons" style="font-size: 60px">school</i>
+										<div class="extra-huge"><i class="fa fa-university"></i></div>
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">${quantityOfCompetencies}</div>
@@ -106,7 +106,7 @@
 							<a href="<c:url value="/competencies"/>">
 								<div class="panel-footer">
 									<span class="pull-left">Ver Competências</span> <span
-										class="pull-right"><i class="material-icons">chevron_right</i></span>
+										class="pull-right"><i class="fa fa-chevron-right"></i></span>
 									<div class="clearfix"></div>
 								</div>
 							</a>
@@ -118,7 +118,7 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="material-icons" style="font-size: 60px">people</i>
+										<div class="extra-huge"><i class="fa fa-users"></i></div>
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">${quantityOfCollaborators}</div>
@@ -129,7 +129,7 @@
 							<a href="<c:url value="/collaborators"/>">
 								<div class="panel-footer">
 									<span class="pull-left">Ver Colaboradores</span> <span
-										class="pull-right"><i class="material-icons">chevron_right</i></span>
+										class="pull-right"><i class="fa fa-chevron-right"></i></span>
 									<div class="clearfix"></div>
 								</div>
 							</a>

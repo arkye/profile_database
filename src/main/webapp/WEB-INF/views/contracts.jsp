@@ -113,12 +113,12 @@
 												<td>${contract.name}</td>
 												<td>${contract.description}</td>
 												<td>${contract.supervisorName}</td>
-												<td><a
+												<td class="big center-table"><a
 													href="<c:url value='/contracts/edit/${contract.id}' />"><i
-														class="material-icons" style="font-size: 18px">launch</i></a></td>
-												<td><a
+																class="fa fa-external-link"></i></a></td>
+												<td class="big center-table"><a
 													href="<c:url value='/contracts/remove/${contract.id}' />"><i
-														class="material-icons" style="font-size: 18px">delete</i></a></td>
+																class="fa fa-trash-o"></i></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>

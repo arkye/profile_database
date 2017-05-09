@@ -2,7 +2,9 @@
 
 <div class="col">
 	<c:if test="${!empty collaborators}">
-		<h3 class="sub-header"><i class="fa fa-fw fa-list"></i> Lista de Colaboradores Registrados</h3>
+		<h3 class="sub-header">
+			<i class="fa fa-fw fa-list"></i> Lista de Colaboradores Registrados
+		</h3>
 		<div class="table-responsive">
 			<table id="collaborators-table"
 				class="table table-bordered table-hover table-striped display">
@@ -23,22 +25,22 @@
 							<td>${collaborator.id}</td>
 							<td>${collaborator.firstName}</td>
 							<td>${collaborator.lastName}</td>
-							<td><c:choose>
+							<c:choose>
 								<c:when test="${!empty collaborator.resume.fileName}">
-									<a
+									<td class="big center-table"><a
 										href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
-										class="material-icons" style="font-size: 18px">file_download</i></a>
+											class="fa fa-download"></i></a></td>
 								</c:when>
 								<c:otherwise>
-									<font color="gray"><em>Sem currículo</em></font>
+									<td><font color="gray"><em>Sem currículo</em></font></td>
 								</c:otherwise>
-								</c:choose></td>
-							<td><a
+							</c:choose>
+							<td class="big center-table"><a
 								href="<c:url value='/collaborators/edit/${collaborator.id}' />"><i
-									class="material-icons" style="font-size: 18px">edit</i></a></td>
-							<td><a
+									class="fa fa-pencil-square-o"></i></a></td>
+							<td class="big center-table"><a
 								href="<c:url value='/collaborators/remove/${collaborator.id}' />"><i
-									class="material-icons" style="font-size: 18px">delete</i></a></td>
+									class="fa fa-trash-o"></i></a></td>
 						</tr>
 					</c:forEach>
 

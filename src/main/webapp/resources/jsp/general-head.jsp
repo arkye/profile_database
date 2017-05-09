@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="<c:url value="/resources/img/favicon.ico"/>">
 <link rel="stylesheet"
-	href="<c:url value="/resources/css/materialIcons.css"/>">
-	<link rel="stylesheet"
 	href="<c:url value="/resources/css/font-awesome.min.css"/>">
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap.min.css"/>">

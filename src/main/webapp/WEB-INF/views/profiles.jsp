@@ -131,12 +131,12 @@
 														<td>${profile.name}</td>
 														<td>${profile.description}</td>
 														<td>${profile.contract.name}</td>
-														<td><a
+														<td class="big center-table"><a
 															href="<c:url value='/profiles/edit/${profile.id}' />"><i
-																class="material-icons" style="font-size: 18px">launch</i></a></td>
-														<td><a
+																class="fa fa-external-link"></i></a></td>
+														<td class="big center-table"><a
 															href="<c:url value='/profiles/remove/${profile.id}' />"><i
-																class="material-icons" style="font-size: 18px">delete</i></a></td>
+																class="fa fa-trash-o"></i></a></td>
 													</tr>
 												</c:forEach>
 											</tbody>

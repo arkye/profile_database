@@ -141,13 +141,14 @@
 											<tr>
 												<td>${document.id}</td>
 												<td>${document.name}</td>
-												<td><c:if test="${!empty document.fileName}">
+												<td class="big center-table"><c:if
+														test="${!empty document.fileName}">
 														<a href="<c:url value='/documents/show/${document.id}' />"><i
-															class="material-icons" style="font-size: 18px">file_download</i></a>
+															class="fa fa-download"></i></a>
 													</c:if></td>
-												<td><a
+												<td class="big center-table"><a
 													href="<c:url value='/contracts/edit/${contract.id}/remove/document/${i.index}'/>"><i
-														class="material-icons" style="font-size: 18px">delete</i></a></td>
+														class="fa fa-trash-o"></i></a></td>
 											</tr>
 										</c:forEach>
 
@@ -175,7 +176,8 @@
 											<th>Descrição</th>
 											<th>Remover do Contrato</th>
 										</tr>
-									<thead>
+										<thead>
+									
 									<tbody>
 										<c:forEach items="${contract.competencies}" var="competency"
 											varStatus="i">
@@ -183,9 +185,9 @@
 												<td>${competency.id}</td>
 												<td>${competency.name}</td>
 												<td>${competency.description}</td>
-												<td><a
+												<td class="big center-table"><a
 													href="<c:url value='/contracts/edit/${contract.id}/remove/competency/${i.index}' />"><i
-														class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
+														class="fa fa-minus-square"></i></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -211,16 +213,18 @@
 											<th>Descrição</th>
 											<th>Adicionar ao Contrato</th>
 										</tr>
+									
 									<thead>
+									
 									<tbody>
 										<c:forEach items="${competencies}" var="competency">
 											<tr>
 												<td>${competency.id}</td>
 												<td>${competency.name}</td>
 												<td>${competency.description}</td>
-												<td><a
+												<td class="big center-table"><a
 													href="<c:url value='/contracts/edit/${contract.id}/add/competency/${competency.id}' />"><i
-														class="material-icons" style="font-size: 18px">add_circle</i></a></td>
+														class="fa fa-plus-square"></i></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -337,6 +341,6 @@
 												} ]
 											});
 						});
-	</script>
-</body>
+	</script><
+									/body>
 </html>

@@ -137,7 +137,9 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="material-icons" style="font-size: 60px">assignment</i>
+										<div class="extra-huge">
+											<i class="fa fa-file-o"></i>
+										</div>
 									</div>
 									<div class="col-xs-9 text-right">
 										<div>${profile.contract.name}</div>
@@ -148,7 +150,7 @@
 							<a href="<c:url value="/contracts/edit/${profile.contract.id}"/>">
 								<div class="panel-footer">
 									<span class="pull-left">Ver Contrato</span> <span
-										class="pull-right"><i class="material-icons">chevron_right</i></span>
+										class="pull-right"><i class="fa fa-chevron-right"></i></span>
 									<div class="clearfix"></div>
 								</div>
 							</a>
@@ -160,7 +162,9 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="material-icons" style="font-size: 60px">school</i>
+										<div class="extra-huge">
+											<i class="fa fa-university"></i>
+										</div>
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">${fn:length(profile.competencies)}</div>
@@ -171,7 +175,7 @@
 							<a href="<c:url value="/competencies"/>">
 								<div class="panel-footer">
 									<span class="pull-left">Ver Competências</span> <span
-										class="pull-right"><i class="material-icons">chevron_right</i></span>
+										class="pull-right"><i class="fa fa-chevron-right"></i></span>
 									<div class="clearfix"></div>
 								</div>
 							</a>
@@ -183,7 +187,9 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="material-icons" style="font-size: 60px">people</i>
+										<div class="extra-huge">
+											<i class="fa fa-users"></i>
+										</div>
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">${fn:length(profile.collaborators)}</div>
@@ -194,7 +200,7 @@
 							<a href="<c:url value="/collaborators"/>">
 								<div class="panel-footer">
 									<span class="pull-left">Ver Colaboradores</span> <span
-										class="pull-right"><i class="material-icons">chevron_right</i></span>
+										class="pull-right"><i class="fa fa-chevron-right"></i></span>
 									<div class="clearfix"></div>
 								</div>
 							</a>
@@ -248,12 +254,19 @@
 												<td>${collaborator.id}</td>
 												<td>${collaborator.firstName}</td>
 												<td>${collaborator.lastName}</td>
-												<td><a
-													href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
-														class="material-icons" style="font-size: 18px">file_download</i></a></td>
-												<td><a
+												<c:choose>
+													<c:when test="${!empty collaborator.resume.fileName}">
+														<td class="big center-table"><a
+															href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
+																class="fa fa-download"></i></a></td>
+													</c:when>
+													<c:otherwise>
+														<td><font color="gray"><em>Sem currículo</em></font></td>
+													</c:otherwise>
+												</c:choose>
+												<td class="big center-table"><a
 													href="<c:url value='/profiles/edit/${profile.id}/remove/collaborator/${i.index}' />"><i
-														class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
+														class="fa fa-minus-square"></i></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -288,9 +301,9 @@
 												<td>${competency.id}</td>
 												<td>${competency.name}</td>
 												<td>${competency.description}</td>
-												<td><a
+												<td class="big center-table"><a
 													href="<c:url value='/profiles/edit/${profile.id}/remove/competency/${i.index}' />"><i
-														class="material-icons" style="font-size: 18px">remove_circle</i></a></td>
+														class="fa fa-minus-square"></i></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -325,9 +338,9 @@
 												<td>${competency.id}</td>
 												<td>${competency.name}</td>
 												<td>${competency.description}</td>
-												<td><a
+												<td class="big center-table"><a
 													href="<c:url value='/profiles/edit/${profile.id}/add/competency/${competency.id}' />"><i
-														class="material-icons" style="font-size: 18px">add_circle</i></a></td>
+														class="fa fa-plus-square"></i></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -363,14 +376,19 @@
 												<td>${collaborator.id}</td>
 												<td>${collaborator.firstName}</td>
 												<td>${collaborator.lastName}</td>
-												<td><c:if test="${!empty collaborator.resume.fileName}">
-														<a
+												<c:choose>
+													<c:when test="${!empty collaborator.resume.fileName}">
+														<td class="big center-table"><a
 															href="<c:url value='/collaborators/${collaborator.id}/resume' />"><i
-															class="material-icons" style="font-size: 18px">file_download</i></a>
-													</c:if></td>
-												<td><a
+																class="fa fa-download"></i></a></td>
+													</c:when>
+													<c:otherwise>
+														<td><font color="gray"><em>Sem currículo</em></font></td>
+													</c:otherwise>
+												</c:choose>
+												<td class="big center-table"><a
 													href="<c:url value='/profiles/edit/${profile.id}/add/collaborator/${collaborator.id}' />"><i
-														class="material-icons" style="font-size: 18px">add_circle</i></a></td>
+														class="fa fa-plus-square"></i></a></td>
 											</tr>
 										</c:forEach>
 
@@ -521,5 +539,5 @@
 											});
 						});
 	</script>
-</body>
+	< /body>
 </html>
