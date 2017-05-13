@@ -1,6 +1,5 @@
 package br.unb.itrac;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.unb.itrac.model.Competency;
 import br.unb.itrac.model.Contract;
@@ -45,7 +45,13 @@ public class CompetencyController {
 	}
 
 	@RequestMapping(value = "/competencies", method = RequestMethod.GET)
-	public String listCompetencies(Model model) {
+	public String listCompetencies(Model model, @ModelAttribute("removal") Competency removal,
+			@ModelAttribute("removed") Competency removed) {
+		if (removal != null && removal.getId() != 0) {
+			model.addAttribute("removal", removal);
+		} else if (removed != null && removed.getId() != 0) {
+			model.addAttribute("removed", removed);
+		}
 		model.addAttribute("competency", new Competency());
 		model.addAttribute("competencies", this.competencyService.listCompetencies());
 		return "/competencies";
@@ -64,42 +70,53 @@ public class CompetencyController {
 	}
 
 	@RequestMapping("/competencies/remove/{id}")
-	public String removeCompetency(@PathVariable("id") int id) {
-		List<Profile> profiles = this.profileService.listProfiles();
-		for (Profile profile : profiles) {
-			List<Competency> competencies = new ArrayList<>();
-			boolean hasProfile = false;
-			for (Competency competency : profile.getCompetencies()) {
-				if (competency.getId() != id) {
-					competencies.add(competency);
-				} else {
-					hasProfile = true;
+	public String confirmToRemoveCompetency(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("removal", this.competencyService.getCompetencyById(id));
+		return "redirect:/competencies";
+	}
+
+	@RequestMapping("/competencies/remove/{id}/confirm")
+	public String removeCompetency(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		try {
+			Competency competency = this.competencyService.getCompetencyById(id);
+			Contract contract = competency.getContract();
+			if (contract != null) {
+				List<Profile> profiles = this.profileService.listProfiles();
+				for (Profile profile : profiles) {
+					boolean hasCompetency = false;
+					int index = 0;
+					for (Competency profileCompetency : profile.getCompetencies()) {
+						if (profileCompetency.getId() == id) {
+							profile.getCompetencies().remove(index);
+							hasCompetency = true;
+							break;
+						}
+						index++;
+					}
+					if (hasCompetency) {
+						this.profileService.updateProfile(profile);
+					}
+				}
+
+				boolean hasCompetency = false;
+				int index = 0;
+				for (Competency contractCompetency : contract.getCompetencies()) {
+					if (contractCompetency.getId() == id) {
+						contract.getCompetencies().remove(index);
+						hasCompetency = true;
+						break;
+					}
+					index++;
+				}
+				if (hasCompetency) {
+					this.contractService.updateContract(contract);
 				}
 			}
-			if (hasProfile) {
-				profile.setCompetencies(competencies);
-				this.profileService.updateProfile(profile);
-			}
+			this.competencyService.removeCompetency(id);
+			redirectAttributes.addFlashAttribute("removed", competency);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		List<Contract> contracts = this.contractService.listContracts();
-		for (Contract contract : contracts) {
-			List<Competency> competencies = new ArrayList<>();
-			boolean hasProfile = false;
-			for (Competency competency : contract.getCompetencies()) {
-				if (competency.getId() != id) {
-					competencies.add(competency);
-				} else {
-					hasProfile = true;
-				}
-			}
-			if (hasProfile) {
-				contract.setCompetencies(competencies);
-				this.contractService.updateContract(contract);
-			}
-		}
-
-		this.competencyService.removeCompetency(id);
 		return "redirect:/competencies";
 	}
 

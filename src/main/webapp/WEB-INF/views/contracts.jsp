@@ -52,6 +52,46 @@
 								data-target="#new"><i class="fa fa-plus-circle"></i>
 									(Registrar Novo Contrato)</a></li>
 						</ol>
+
+						<c:if test="${!empty removed.name}">
+							<div class="alert alert-success alert-dismissable fade in">
+								<a href="#" class="close" data-dismiss="alert"
+									aria-label="close">&times;</a> Contrato
+								<code>${removed.name} (${removed.id})</code>
+								removido com sucesso!
+							</div>
+						</c:if>
+
+						<c:if test="${!empty removal.name}">
+							<div class="alert alert-warning">
+								<div class="big">
+									<i class="fa fa-exclamation-triangle"></i> Alerta!
+								</div>
+								<c:choose>
+									<c:when test="${!empty removal.competencies}">
+										<br>A operação de remover o contrato <code>
+											<a href="<c:url value="/contracts/edit/${removal.id}"/>">${removal.name}
+												(${removal.id})</a>
+										</code> afetará os respectivos perfis e/ou competências associados à este colaborador(a).
+			</c:when>
+									<c:otherwise>
+										<br>A remoção do contrato <code>
+											<a href="<c:url value="/contracts/edit/${removal.id}"/>">${removal.name}
+												(${removal.id})</a>
+										</code> será permanente.
+			</c:otherwise>
+								</c:choose>
+								<br> <strong>Deseja continuar a operação?</strong> <br>
+								<br> <a
+									href="<c:url value="/contracts/remove/${removal.id}/confirm"/>"
+									class="btn btn-sm btn-danger"> <i class="fa fa-trash-o"></i>
+									Continuar e Remover
+								</a> <a href="<c:url value="/contracts"/>"
+									class="btn btn-sm btn-default"> <i class="fa fa-times"></i>
+									Cancelar
+								</a>
+							</div>
+						</c:if>
 					</div>
 				</div>
 
@@ -92,7 +132,9 @@
 					<div class="col-lg-12">
 
 						<c:if test="${!empty contracts}">
-							<h3 class="sub-header"><i class="fa fa-list"></i> Lista de Contratos Registrados</h3>
+							<h3 class="sub-header">
+								<i class="fa fa-list"></i> Lista de Contratos Registrados
+							</h3>
 							<div class="table-responsive">
 								<table id="contracts-table"
 									class="table table-bordered table-hover table-striped display">
@@ -115,10 +157,10 @@
 												<td>${contract.supervisorName}</td>
 												<td class="big center-table"><a
 													href="<c:url value='/contracts/edit/${contract.id}' />"><i
-																class="fa fa-external-link"></i></a></td>
+														class="fa fa-external-link"></i></a></td>
 												<td class="big center-table"><a
 													href="<c:url value='/contracts/remove/${contract.id}' />"><i
-																class="fa fa-trash-o"></i></a></td>
+														class="fa fa-trash-o"></i></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>

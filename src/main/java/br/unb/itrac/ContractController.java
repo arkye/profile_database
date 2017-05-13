@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.unb.itrac.model.Competency;
 import br.unb.itrac.model.Contract;
@@ -35,7 +36,7 @@ public class ContractController {
 	public void setContractService(ContractService contractService) {
 		this.contractService = contractService;
 	}
-	
+
 	@Autowired(required = true)
 	@Qualifier(value = "profileService")
 	public void setProfileService(ProfileService profileService) {
@@ -55,7 +56,13 @@ public class ContractController {
 	}
 
 	@RequestMapping(value = "/contracts", method = RequestMethod.GET)
-	public String listContracts(Model model) {
+	public String listContracts(Model model, @ModelAttribute("removal") Contract removal,
+			@ModelAttribute("removed") Contract removed) {
+		if (removal != null && removal.getId() != 0) {
+			model.addAttribute("removal", removal);
+		} else if (removed != null && removed.getId() != 0) {
+			model.addAttribute("removed", removed);
+		}
 		model.addAttribute("contract", new Contract());
 		model.addAttribute("contracts", this.contractService.listContracts());
 		return "contracts";
@@ -66,23 +73,35 @@ public class ContractController {
 		this.contractService.addContract(contract);
 		return "redirect:/contracts/edit/" + contract.getId();
 	}
-
+	
 	@RequestMapping("/contracts/remove/{id}")
-	public String removeContract(@PathVariable("id") int id) {
-		List<Profile> profiles = this.profileService.listProfiles();
-		for(Profile profile : profiles) {
-			if(profile.getContract().getId() == id) {
-				profile.setContract(null);
-				this.profileService.removeProfile(profile.getId());
+	public String confirmToRemoveContract(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("removal", this.contractService.getContractById(id));
+		return "redirect:/contracts";
+	}
+
+	@RequestMapping("/contracts/remove/{id}/confirm")
+	public String removeContract(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		try {
+			List<Profile> profiles = this.profileService.listProfiles();
+			for (Profile profile : profiles) {
+				if (profile.getContract().getId() == id) {
+					profile.setContract(null);
+					this.profileService.updateProfile(profile);
+				}
 			}
+
+			Contract contract = this.contractService.getContractById(id);
+			for (Competency competency : contract.getCompetencies()) {
+				competency.setContract(null);
+				this.competencyService.updateCompetency(competency);
+			}
+			this.contractService.removeContract(id);
+			redirectAttributes.addFlashAttribute("removed", contract);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		Contract contract = this.contractService.getContractById(id);
-		for(Competency competency : contract.getCompetencies()) {
-			competency.setContract(null);
-			this.competencyService.updateCompetency(competency);
-		}
-		this.contractService.removeContract(id);
+
 		return "redirect:/contracts";
 	}
 
@@ -94,7 +113,7 @@ public class ContractController {
 		model.addAttribute("competencies", this.competencyService.listCompetenciesWithoutContract());
 		return "contract";
 	}
-	
+
 	@RequestMapping(value = "/contracts/edit", method = RequestMethod.POST)
 	public String editContract(@ModelAttribute("contract") Contract contract) {
 		Contract databaseContract = this.contractService.getContractById(contract.getId());

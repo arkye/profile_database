@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.unb.itrac.model.Collaborator;
 import br.unb.itrac.model.Competency;
@@ -68,7 +69,13 @@ public class ProfileController {
 	}
 
 	@RequestMapping(value = "/profiles", method = RequestMethod.GET)
-	public String listProfiles(Model model) {
+	public String listProfiles(Model model, @ModelAttribute("removal") Profile removal,
+			@ModelAttribute("removed") Profile removed) {
+		if (removal != null && removal.getId() != 0) {
+			model.addAttribute("removal", removal);
+		} else if (removed != null && removed.getId() != 0) {
+			model.addAttribute("removed", removed);
+		}
 		model.addAttribute("profile", new Profile());
 		model.addAttribute("profiles", this.profileService.listProfiles());
 		model.addAttribute("contracts", this.contractService.listContracts());
@@ -80,10 +87,42 @@ public class ProfileController {
 		this.profileService.addProfile(profile);
 		return "redirect:/profiles/edit/" + profile.getId();
 	}
-
+	
 	@RequestMapping("/profiles/remove/{id}")
-	public String removeProfile(@PathVariable("id") int id) {
-		this.profileService.removeProfile(id);
+	public String confirmToRemoveProfile(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("removal", this.profileService.getProfileById(id));
+		return "redirect:/profiles";
+	}
+
+	@RequestMapping("/profiles/remove/{id}/confirm")
+	public String removeProfile(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		try {
+			Profile profile = this.profileService.getProfileById(id);
+			if (profile.getCollaborators() != null) {
+				for (Collaborator collaborator : profile.getCollaborators()) {
+					if (collaborator.getProfiles() != null) {
+						boolean hasProfile = false;
+						int index = 0;
+						for (Profile collaboratorProfile : collaborator.getProfiles()) {
+							if (collaboratorProfile.getId() == id) {
+								collaborator.getProfiles().remove(index);
+								hasProfile = true;
+								break;
+							}
+							index++;
+						}
+						if (hasProfile) {
+							this.collaboratorService.updateCollaborator(collaborator);
+						}
+					}
+				}
+			}
+			this.profileService.removeProfile(id);
+			redirectAttributes.addFlashAttribute("removed", profile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return "redirect:/profiles";
 	}
 
@@ -91,23 +130,27 @@ public class ProfileController {
 	public String showProfile(@PathVariable("id") int id, Model model) {
 		Profile profile = this.profileService.getProfileById(id);
 		model.addAttribute("profile", profile);
-		List<Competency> filteredCompetencies = new ArrayList<>();
-		List<Competency> contractCompetencies = this.contractService.getContractById(profile.getContract().getId()).getCompetencies();
-		for(Competency competency : contractCompetencies) {
-			boolean hasCompetency = false;
-			for(Competency profileCompetency : profile.getCompetencies()) {
-				if(profileCompetency.getId() == competency.getId()) {
-					hasCompetency = true;
-					break;
+		if (profile.getContract() != null) {
+			List<Competency> filteredCompetencies = new ArrayList<>();
+			List<Competency> contractCompetencies = this.contractService.getContractById(profile.getContract().getId())
+					.getCompetencies();
+			for (Competency competency : contractCompetencies) {
+				boolean hasCompetency = false;
+				for (Competency profileCompetency : profile.getCompetencies()) {
+					if (profileCompetency.getId() == competency.getId()) {
+						hasCompetency = true;
+						break;
+					}
+				}
+				if (!hasCompetency) {
+					filteredCompetencies.add(competency);
 				}
 			}
-			if(!hasCompetency) {
-				filteredCompetencies.add(competency);
-			}
+			model.addAttribute("competencies", filteredCompetencies);
 		}
+
 		model.addAttribute("profiles", this.profileService.listProfiles());
 		model.addAttribute("contracts", this.contractService.listContracts());
-		model.addAttribute("competencies", filteredCompetencies);
 		model.addAttribute("collaborators", this.collaboratorService.listCollaboratorsWithoutThisProfile(profile));
 		return "profile";
 	}
@@ -116,9 +159,10 @@ public class ProfileController {
 	public String editProfile(@ModelAttribute("profile") Profile profile) {
 		Profile databaseProfile = this.profileService.getProfileById(profile.getId());
 		profile.setCollaborators(databaseProfile.getCollaborators());
-		if (profile.getContract().getId() == databaseProfile.getContract().getId()) {
+		if (databaseProfile.getContract() != null
+				&& profile.getContract().getId() == databaseProfile.getContract().getId()) {
 			profile.setCompetencies(databaseProfile.getCompetencies());
-		} else {
+		} else if (profile.getCompetencies() != null) {
 			profile.getCompetencies().clear();
 		}
 		this.profileService.updateProfile(profile);
@@ -166,13 +210,13 @@ public class ProfileController {
 		profile.getCollaborators().remove(collaboratorIndex);
 		this.profileService.updateProfile(profile);
 		List<Profile> profiles = new ArrayList<>();
-		for(Profile collaboratorProfile : collaborator.getProfiles()) {
-			if(collaboratorProfile.getId() != profile.getId()) {
+		for (Profile collaboratorProfile : collaborator.getProfiles()) {
+			if (collaboratorProfile.getId() != profile.getId()) {
 				profiles.add(collaboratorProfile);
 			}
 		}
 		collaborator.setProfiles(profiles);
 		this.collaboratorService.updateCollaborator(collaborator);
-		return "redirect:/profiles/edit/" + id;	
+		return "redirect:/profiles/edit/" + id;
 	}
 }

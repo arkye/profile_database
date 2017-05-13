@@ -29,9 +29,7 @@ public class ProfileDAOImpl implements ProfileDAO {
 	@Override
 	public void updateProfile(Profile profile) {
 		Session session = this.sessionFactory.getCurrentSession();
-		logger.info("1-" + profile.getContract().getCompetencies().size());
 		session.update(profile);
-		logger.info("2-" + profile.getContract().getCompetencies().size());
 		logger.info("[Profile][UPDATE]:" + profile);
 	}
 

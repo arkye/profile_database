@@ -6,21 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.unb.itrac.model.Collaborator;
+import br.unb.itrac.model.Profile;
 import br.unb.itrac.service.CollaboratorService;
 import br.unb.itrac.service.DocumentService;
+import br.unb.itrac.service.ProfileService;
 
 @Controller
 public class CollaboratorController {
 
 	private CollaboratorService collaboratorService;
 	private DocumentService documentService;
+	private ProfileService profileService;
 
 	@Autowired(required = true)
 	@Qualifier(value = "collaboratorService")
@@ -34,8 +39,20 @@ public class CollaboratorController {
 		this.documentService = documentService;
 	}
 
+	@Autowired(required = true)
+	@Qualifier(value = "profileService")
+	public void setProfileService(ProfileService profileService) {
+		this.profileService = profileService;
+	}
+
 	@RequestMapping(value = "/collaborators", method = RequestMethod.GET)
-	public String listCollaborators(Model model) {
+	public String listCollaborators(Model model, @ModelAttribute("removal") Collaborator removal,
+			@ModelAttribute("removed") Collaborator removed) {
+		if (removal != null && removal.getId() != 0) {
+			model.addAttribute("removal", removal);
+		} else if (removed != null && removed.getId() != 0) {
+			model.addAttribute("removed", removed);
+		}
 		model.addAttribute("collaborator", new Collaborator());
 		model.addAttribute("collaborators", this.collaboratorService.listCollaborators());
 		return "/collaborators";
@@ -83,10 +100,43 @@ public class CollaboratorController {
 		}
 		return "redirect:/collaborators";
 	}
-
+	
 	@RequestMapping("/collaborators/remove/{id}")
-	public String removeCollaborator(@PathVariable("id") int id) {
-		this.collaboratorService.removeCollaborator(id);
+	public String confirmToRemoveCollaborator(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		try {
+			redirectAttributes.addFlashAttribute("removal", this.collaboratorService.getCollaboratorById(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/collaborators";
+	}
+
+	@RequestMapping("/collaborators/remove/{id}/confirm")
+	public String removeCollaborator(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		try {
+			Collaborator collaborator = this.collaboratorService.getCollaboratorById(id);
+			if (collaborator.getProfiles() != null) {
+				for (Profile profile : collaborator.getProfiles()) {
+					int index = 0;
+					boolean hasCollaborator = false;
+					for (Collaborator profileCollaborator : profile.getCollaborators()) {
+						if (profileCollaborator.getId() == id) {
+							profile.getCollaborators().remove(index);
+							hasCollaborator = true;
+							break;
+						}
+						index++;
+					}
+					if (hasCollaborator) {
+						this.profileService.updateProfile(profile);
+					}
+				}
+			}
+			this.collaboratorService.removeCollaborator(id);
+			redirectAttributes.addFlashAttribute("removed", collaborator);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "redirect:/collaborators";
 	}
 
