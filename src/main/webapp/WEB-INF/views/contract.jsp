@@ -176,8 +176,7 @@
 											<th>Descrição</th>
 											<th>Remover do Contrato</th>
 										</tr>
-										<thead>
-									
+									<thead>
 									<tbody>
 										<c:forEach items="${contract.competencies}" var="competency"
 											varStatus="i">
@@ -213,9 +212,7 @@
 											<th>Descrição</th>
 											<th>Adicionar ao Contrato</th>
 										</tr>
-									
 									<thead>
-									
 									<tbody>
 										<c:forEach items="${competencies}" var="competency">
 											<tr>
@@ -341,6 +338,6 @@
 												} ]
 											});
 						});
-	</script><
-									/body>
+	</script>
+</body>
 </html>

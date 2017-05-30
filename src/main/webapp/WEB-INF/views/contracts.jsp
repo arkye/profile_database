@@ -100,7 +100,7 @@
 					<c:url var="addAction" value="/contracts/add"></c:url>
 
 
-					<div class="col collapse" id="new">
+					<div class="col-lg-12 collapse" id="new">
 						<h3 class="sub-header">
 							<i class="fa fa-plus-circle"></i> Registrar Novo Contrato
 						</h3>
@@ -216,5 +216,5 @@
 											});
 						});
 	</script>
-	< /body>
+</body>
 </html>
