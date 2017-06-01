@@ -8,7 +8,7 @@
 
 ## Instruções para IDE [STS](https://spring.io/tools/sts)
 
-* **Passo 1**: [Crie o Banco de Dados](INSTALL.md/#Passo 1: Crie o Banco de Dados);
+* **Passo 1**: [Crie o Banco de Dados](INSTALL.md#passo-1-crie-o-banco-de-dados);
 * **Passo 2**: Realize o _download_ da IDE [STS](https://spring.io/tools/sts);
 * **Passo 3**: Inicie a IDE, configurando a _workspace_ no caminho de preferência. Lembre-se de manter o código-fonte do projeto neste _workspace_;
 * **Passo 4**: Vá em `File -> Import...`;

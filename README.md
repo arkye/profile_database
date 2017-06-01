@@ -12,4 +12,4 @@ Para instalação, consulte o arquivo [INSTALL.md](INSTALL.md).
 
 Para desenvolvedores, consulte o arquivo [DEV_INSTALL.md](DEV_INSTALL.md).
 
-Para maiores informações, consulte a [Wiki](wiki).
+Para maiores informações, consulte a [Wiki](../../wiki).
