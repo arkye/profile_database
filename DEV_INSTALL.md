@@ -14,5 +14,6 @@
 * **Passo 4**: Vá em `File -> Import...`;
 * **Passo 5**: Encontre o item `Existing Maven Projects`, na pasta `Maven` e clique em `Next`;
 * **Passo 6**: Selecione o `pom.xml` do projeto **Banco de Perfis** e clique em `Finish`;
-* **Passo 7**: Clique com o botão direito na raíz do projeto no `Package Explorer` e selecione `Run As -> Run on Server...`;
-* **Passo 8**: Escolha/Configure o servidor de preferência (Padrão: `Pivotal tc Server Developer Edition`) e clique em `Finish`.
+* **Passo 7**: [Altere as Configurações de Banco de Dados no Projeto](INSTALL.md#passo-2-altere-as-configurações-de-banco-de-dados-no-projeto);
+* **Passo 8**: Clique com o botão direito na raíz do projeto no `Package Explorer` e selecione `Run As -> Run on Server...`;
+* **Passo 9**: Escolha/Configure o servidor de preferência (Padrão: `Pivotal tc Server Developer Edition`) e clique em `Finish`.
