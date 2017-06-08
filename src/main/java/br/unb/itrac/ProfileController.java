@@ -81,6 +81,21 @@ public class ProfileController {
 		model.addAttribute("contracts", this.contractService.listContracts());
 		return "profiles";
 	}
+	
+	@RequestMapping(value = "/profiles/new", method = RequestMethod.GET)
+	public String listProfilesWithNewCollapsed(Model model, @ModelAttribute("removal") Profile removal,
+			@ModelAttribute("removed") Profile removed) {
+		if (removal != null && removal.getId() != 0) {
+			model.addAttribute("removal", removal);
+		} else if (removed != null && removed.getId() != 0) {
+			model.addAttribute("removed", removed);
+		}
+		model.addAttribute("profile", new Profile());
+		model.addAttribute("profiles", this.profileService.listProfiles());
+		model.addAttribute("contracts", this.contractService.listContracts());
+		model.addAttribute("collapse", "true");
+		return "profiles";
+	}
 
 	@RequestMapping(value = "/profiles/add", method = RequestMethod.POST)
 	public String addProfile(@ModelAttribute("profile") Profile profile) {

@@ -12,21 +12,21 @@
 		</c:if>
 		<c:choose>
 			<c:when test="${competency.id > 4}">
-				<c:set var="start" value="${competency.id - 4}"/>
+				<c:set var="start" value="${competency.id - 4}" />
 			</c:when>
 			<c:otherwise>
-				<c:set var="start" value="0"/>
+				<c:set var="start" value="0" />
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
 			<c:when test="${competency.id > 4}">
-				<c:set var="finish" value="${competency.id + 2}"/>
+				<c:set var="finish" value="${competency.id + 2}" />
 			</c:when>
 			<c:otherwise>
-				<c:set var="finish" value="8"/>
+				<c:set var="finish" value="8" />
 			</c:otherwise>
 		</c:choose>
-		<c:set var="end" value="8"/>
+		<c:set var="end" value="8" />
 		<c:forEach items="${competencies}" begin="${start}" end="${finish}"
 			var="otherCompetency">
 			<c:choose>
@@ -42,11 +42,17 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-		<c:if
-			test="${fn:length(competencies) > 8 && fn:length(competencies) > competency.id + 2}">
-			<center>
-				<a>...</a>
-			</center>
-		</c:if>
+		<c:choose>
+			<c:when
+				test="${fn:length(competencies) > 8 && fn:length(competencies) > competency.id + 2}">
+				<center>
+					<a>...</a>
+				</center>
+			</c:when>
+			<c:otherwise>
+				<li><a href="<c:url value="/competencies/new"/>"><i
+						class="fa fa-plus-circle"></i> (Criar nova competência)</a></li>
+			</c:otherwise>
+		</c:choose>
 	</ul>
 </div>

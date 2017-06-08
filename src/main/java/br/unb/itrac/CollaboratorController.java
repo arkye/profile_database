@@ -57,6 +57,20 @@ public class CollaboratorController {
 		model.addAttribute("collaborators", this.collaboratorService.listCollaborators());
 		return "/collaborators";
 	}
+	
+	@RequestMapping(value = "/collaborators/new", method = RequestMethod.GET)
+	public String listCollaboratorsWithNewCollapsed(Model model, @ModelAttribute("removal") Collaborator removal,
+			@ModelAttribute("removed") Collaborator removed) {
+		if (removal != null && removal.getId() != 0) {
+			model.addAttribute("removal", removal);
+		} else if (removed != null && removed.getId() != 0) {
+			model.addAttribute("removed", removed);
+		}
+		model.addAttribute("collaborator", new Collaborator());
+		model.addAttribute("collaborators", this.collaboratorService.listCollaborators());
+		model.addAttribute("collapse", "true");
+		return "/collaborators";
+	}
 
 	@RequestMapping(value = "/collaborators/{id}/resume", produces = "application/pdf", method = RequestMethod.GET)
 	public String showDocument(@PathVariable("id") int id, HttpServletResponse response, Model model) {

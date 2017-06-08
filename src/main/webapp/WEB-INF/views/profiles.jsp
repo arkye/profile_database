@@ -244,5 +244,14 @@
 											});
 						});
 	</script>
+	<c:if test="${!empty collapse}">
+		<script>
+			window.onload = function() {
+				$('#new').collapse({
+					show : true
+				})
+			}
+		</script>
+	</c:if>
 </body>
 </html>

@@ -3,7 +3,6 @@
 <h1 class="page-header">
 	<i class="fa fa-users"></i> Colaboradores
 </h1>
-
 <ol class="breadcrumb">
 	<li><a href="<c:url value="/"/>"><i class="fa fa-home"></i>
 			Início</a></li>
@@ -30,14 +29,14 @@
 		<c:choose>
 			<c:when test="${!empty removal.profiles}">
 				<br>A operação de remover o(a) colaborador(a) <code>
-					<a href="<c:url value="/collaborators/edit/${removal.id}"/>">${removal.firstName} ${removal.lastName}
-						(${removal.id})</a>
+					<a href="<c:url value="/collaborators/edit/${removal.id}"/>">${removal.firstName}
+						${removal.lastName} (${removal.id})</a>
 				</code> afetará os respectivos perfis associados à este colaborador(a).
 			</c:when>
 			<c:otherwise>
 				<br>A remoção do(a) colaborador(a) <code>
-					<a href="<c:url value="/collaborators/edit/${removal.id}"/>">${removal.firstName} ${removal.lastName}
-						(${removal.id})</a>
+					<a href="<c:url value="/collaborators/edit/${removal.id}"/>">${removal.firstName}
+						${removal.lastName} (${removal.id})</a>
 				</code> será permanente.
 			</c:otherwise>
 		</c:choose>

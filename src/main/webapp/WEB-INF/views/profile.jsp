@@ -59,12 +59,18 @@
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
-				<c:if
-					test="${fn:length(profiles) > 8 && fn:length(profiles) > profile.id + 2}">
-					<center>
-						<a>...</a>
-					</center>
-				</c:if>
+				<c:choose>
+					<c:when
+						test="${fn:length(profiles) > 8 && fn:length(profiles) > profile.id + 2}">
+						<center>
+							<a>...</a>
+						</center>
+					</c:when>
+					<c:otherwise>
+						<li><a href="<c:url value="/profiles/new"/>"><i
+								class="fa fa-plus-circle"></i> (Criar novo perfil)</a></li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>
 

@@ -56,6 +56,20 @@ public class CompetencyController {
 		model.addAttribute("competencies", this.competencyService.listCompetencies());
 		return "/competencies";
 	}
+	
+	@RequestMapping(value = "/competencies/new", method = RequestMethod.GET)
+	public String listCompetenciesWithNewCollapsed(Model model, @ModelAttribute("removal") Competency removal,
+			@ModelAttribute("removed") Competency removed) {
+		if (removal != null && removal.getId() != 0) {
+			model.addAttribute("removal", removal);
+		} else if (removed != null && removed.getId() != 0) {
+			model.addAttribute("removed", removed);
+		}
+		model.addAttribute("competency", new Competency());
+		model.addAttribute("competencies", this.competencyService.listCompetencies());
+		model.addAttribute("collapse", "true");
+		return "/competencies";
+	}
 
 	@RequestMapping(value = "/competencies/add", method = RequestMethod.POST)
 	public String addCompetency(@ModelAttribute("competency") Competency competency) {
